@@ -20,7 +20,7 @@ const LoginScreen = () => {
     const storedUsername = await AsyncStorage.getItem("username");
     const storedPassword = await AsyncStorage.getItem("password");
     if (storedUsername === username && storedPassword === password) {
-      navigation.navigate("Home");
+      navigation.navigate("Subject");
     } else {
       alert("Username atau Password Salah");
     }
