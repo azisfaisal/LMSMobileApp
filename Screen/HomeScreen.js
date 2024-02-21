@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { Header } from "../Components/Header";
+import { BarChart } from "react-native-chart-kit";
 
 const HomeScreen = () => {
   const [username, setUsername] = useState("");
@@ -17,6 +18,25 @@ const HomeScreen = () => {
 
     fetchData();
   }, []);
+
+  const data = {
+    labels: ["January", "February", "March", "April", "May", "June"],
+    datasets: [
+      {
+        data: [20, 45, 28, 80, 99, 43],
+      },
+    ],
+  };
+
+  const chartConfigs = {
+    backgroundColor: "#000000",
+    backgroundGradientFrom: "#1E2923",
+    backgroundGradientTo: "#08130D",
+    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    style: {
+      borderRadius: 16,
+    },
+  };
 
   return (
     <ScrollView>
@@ -36,6 +56,15 @@ const HomeScreen = () => {
             <Text>Gambar Teknik</Text>
           </View>
         </View>
+        {/* <BarChart
+          data={data}
+          width={220}
+          height={220}
+          chartConfig={{
+            color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+          }}
+          verticalLabelRotation={30}
+        /> */}
       </View>
     </ScrollView>
   );

@@ -7,6 +7,7 @@ import HomeScreen from "./Screen/HomeScreen";
 import SubjectScreen from "./Screen/SubjectScreen";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar, StyleSheet } from "react-native";
+import { TutorialScreen } from "./Screen/TutorialScreen";
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,7 @@ const App = () => {
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="Subject" component={SubjectScreen} />
+          <Stack.Screen name="Tutorial" component={TutorialScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
         </Stack.Navigator>
       </SafeAreaView>

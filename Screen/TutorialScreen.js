@@ -1,25 +1,37 @@
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import WebView from "react-native-webview";
+import React from "react";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Header } from "../Components/Header";
+import { useNavigation } from "@react-navigation/native";
+import Pdf from "react-native-pdf";
 
-const SubjectScreen = ({}) => {
+export const TutorialScreen = () => {
   const navigation = useNavigation();
-
   return (
     <View>
       <View style={styles.container}>
         <Header />
-        <WebView
+        <Pdf
+          trustAllCerts={false}
           source={{
-            uri: "https://docs.google.com/presentation/d/e/2PACX-1vR3ySPeMa2KOmIeqifuoOKPJ2CvMl8fpsfK-CAtKZixgqZf5rynDwoyUujJZ_jjyQ/pub?start=false&loop=false&delayms=3000",
+            uri: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+            cache: true,
           }}
-          style={{ flex: 1 }}
+          style={{
+            flex: 1,
+            width: Dimensions.get("window").width,
+            height: Dimensions.get("window").height,
+          }}
         />
       </View>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("Tutorial");
+          navigation.navigate("Home");
         }}
         style={styles.buttonStyle}
       >
@@ -47,5 +59,3 @@ const styles = StyleSheet.create({
     color: "white",
   },
 });
-
-export default SubjectScreen;
