@@ -6,11 +6,25 @@ import SignUpScreen from "./Screen/SignUpScreen";
 import HomeScreen from "./Screen/HomeScreen";
 import SubjectScreen from "./Screen/SubjectScreen";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar, StyleSheet } from "react-native";
+import {
+  Dimensions,
+  Platform,
+  StatusBar,
+  StyleSheet,
+  View,
+} from "react-native";
 import { TutorialScreen } from "./Screen/TutorialScreen";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MyTabs } from "./Screen/MyTabs";
+import { Main } from "./Screen/Main";
+import { EvaluationScreen } from "./Screen/EvaluationScreen";
+import { SimulationScreen } from "./Screen/SimulationScreen";
+import { AboutScreen } from "./Screen/AboutScreen";
+import { DescriptionScreen } from "./Screen/DescriptionScreen";
 
 const Stack = createStackNavigator();
-
+const Tab = createBottomTabNavigator();
+const { width, height } = Dimensions.get("window");
 const App = () => {
   return (
     <NavigationContainer>
@@ -27,10 +41,47 @@ const App = () => {
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="Subject" component={SubjectScreen} />
           <Stack.Screen name="Tutorial" component={TutorialScreen} />
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Main" component={Main} />
         </Stack.Navigator>
       </SafeAreaView>
     </NavigationContainer>
+  );
+};
+
+export const BottomTabs = () => {
+  return (
+    <View style={{ height: Platform.OS === "ios" ? "100%" : height }}>
+      <Tab.Navigator
+        tabBar={(props) => <MyTabs {...props} />}
+        initialRouteName="Home"
+      >
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="Evaluasi"
+          component={EvaluationScreen}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="Simulasi"
+          component={SimulationScreen}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="Tentang"
+          component={AboutScreen}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="Deskripsi"
+          component={DescriptionScreen}
+          options={{ headerShown: false }}
+        />
+      </Tab.Navigator>
+    </View>
   );
 };
 

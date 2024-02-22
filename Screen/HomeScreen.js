@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, FlatList } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { Header } from "../Components/Header";
-import { BarChart } from "react-native-chart-kit";
+// import { BarChart } from "react-native-chart-kit";
+import { BarChart } from "react-native-gifted-charts";
+import { CardHistory } from "../Components/CardHistory";
+import { COLORS } from "../Config";
 
 const HomeScreen = () => {
   const [username, setUsername] = useState("");
@@ -19,52 +22,77 @@ const HomeScreen = () => {
     fetchData();
   }, []);
 
-  const data = {
-    labels: ["January", "February", "March", "April", "May", "June"],
-    datasets: [
-      {
-        data: [20, 45, 28, 80, 99, 43],
-      },
-    ],
-  };
+  const barData = [
+    { value: 250, label: "M" },
+    { value: 500, label: "T", frontColor: "#177AD5" },
+    { value: 745, label: "W", frontColor: "#177AD5" },
+    { value: 320, label: "T" },
+    { value: 600, label: "F", frontColor: "#177AD5" },
+    { value: 256, label: "S" },
+    { value: 300, label: "S" },
+  ];
 
-  const chartConfigs = {
-    backgroundColor: "#000000",
-    backgroundGradientFrom: "#1E2923",
-    backgroundGradientTo: "#08130D",
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    style: {
-      borderRadius: 16,
+  const dataHistory = [
+    {
+      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+      title: "Histori 1",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     },
-  };
-
+    {
+      id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+      title: "Histori 2",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    },
+    {
+      id: "58694a0f-3da1-471f-bd96-145571e29d72",
+      title: "Histori 3",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    },
+  ];
   return (
     <ScrollView>
       <Header />
       {/* <Text>Welcome, {username}!</Text> */}
       <View style={styles.container}>
-        <View style={styles.dashboard}>
-          <View>
-            <View style={styles.cardSmall}>
-              <Text>RPP</Text>
+        <View>
+          <View style={styles.dashboard}>
+            <View>
+              <View style={styles.cardSmall}>
+                <Text>RPP</Text>
+              </View>
+              <View style={styles.cardSmall}>
+                <Text>SIlabus</Text>
+              </View>
             </View>
-            <View style={styles.cardSmall}>
-              <Text>SIlabus</Text>
+            <View style={styles.cardLarge}>
+              <Text>Gambar Teknik</Text>
             </View>
           </View>
-          <View style={styles.cardLarge}>
-            <Text>Gambar Teknik</Text>
-          </View>
+          <FlatList
+            key={"#"}
+            data={dataHistory}
+            renderItem={({ item }) => (
+              <View key={item.id}>
+                <CardHistory item={item} />
+              </View>
+            )}
+            scrollEnabled={false}
+            style={{ marginTop: 20 }}
+            // columnWrapperStyle={{ justifyContent: "space-evenly" }}
+            // numColumns={2}
+            keyExtractor={(item) => "#" + item.id}
+          />
         </View>
-        {/* <BarChart
-          data={data}
-          width={220}
-          height={220}
-          chartConfig={{
-            color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-          }}
-          verticalLabelRotation={30}
-        /> */}
+        <BarChart
+          barWidth={22}
+          height={600}
+          noOfSections={3}
+          barBorderRadius={4}
+          frontColor="lightgray"
+          data={barData}
+          yAxisThickness={0}
+          xAxisThickness={0}
+        />
       </View>
     </ScrollView>
   );
@@ -72,7 +100,7 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   cardSmall: {
-    backgroundColor: "grey",
+    backgroundColor: COLORS.secondary,
     width: 120,
     height: 120,
     borderRadius: 8,
@@ -83,13 +111,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    flexDirection: "row",
+    gap: 60,
+    alignItems: "center",
   },
   dashboard: {
     flexDirection: "row",
     gap: 10,
   },
   cardLarge: {
-    backgroundColor: "grey",
+    backgroundColor: COLORS.tertiary,
     width: 200,
     height: 250,
     borderRadius: 8,

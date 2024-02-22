@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import { COLORS } from "../Config";
 
 const LoginScreen = () => {
   const [username, setUsername] = useState("");
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
     maxWidth: "65%",
     marginTop: 10,
     fontWeight: "bold",
-    color: "grey",
+    color: COLORS.primary,
   },
   container: {
     flexDirection: "row",
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     width: 300,
     padding: 10,
     marginVertical: 10,
-    backgroundColor: "#6464bb",
+    backgroundColor: COLORS.primary,
     alignItems: "center",
   },
   textButton: {
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
     color: "#72777a",
   },
   textSignUp: {
-    color: "#6464bb",
+    color: COLORS.primary,
   },
 });
 

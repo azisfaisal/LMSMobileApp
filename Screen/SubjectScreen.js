@@ -2,6 +2,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import WebView from "react-native-webview";
 import { Header } from "../Components/Header";
+import { COLORS } from "../Config";
 
 const SubjectScreen = ({}) => {
   const navigation = useNavigation();
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
     marginVertical: 10,
-    backgroundColor: "#6464bb",
+    backgroundColor: COLORS.primary,
     alignItems: "center",
     marginHorizontal: 20,
     width: 150,

@@ -9,6 +9,7 @@ import {
 import { Header } from "../Components/Header";
 import { useNavigation } from "@react-navigation/native";
 import Pdf from "react-native-pdf";
+import { COLORS } from "../Config";
 
 export const TutorialScreen = () => {
   const navigation = useNavigation();
@@ -31,7 +32,7 @@ export const TutorialScreen = () => {
       </View>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("Home");
+          navigation.navigate("Main");
         }}
         style={styles.buttonStyle}
       >
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
     marginVertical: 10,
-    backgroundColor: "#6464bb",
+    backgroundColor: COLORS.primary,
     alignItems: "center",
     marginHorizontal: 20,
     width: 150,

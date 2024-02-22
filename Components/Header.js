@@ -1,6 +1,7 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { COLORS } from "../Config";
 
 export const Header = () => {
   return (
@@ -19,7 +20,7 @@ export const Header = () => {
 const styles = StyleSheet.create({
   container: {
     height: 70,
-    backgroundColor: "#6464bb",
+    backgroundColor: COLORS.primary,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
