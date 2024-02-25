@@ -1,9 +1,11 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { COLORS } from "../Config";
+import { useNavigation } from "@react-navigation/native";
 
 export const Header = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <Image
@@ -13,7 +15,13 @@ export const Header = () => {
       <Text style={styles.textHeader}>
         Aplikasi Multimedia Animasi Gambar Teknik
       </Text>
-      <FontAwesome name="user-circle-o" size={30} color="white" />
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("Profile");
+        }}
+      >
+        <FontAwesome name="user-circle-o" size={30} color="white" />
+      </TouchableOpacity>
     </View>
   );
 };

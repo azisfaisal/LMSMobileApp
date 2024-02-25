@@ -1,10 +1,33 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { Header } from "../Components/Header";
+import Pdf from "react-native-pdf";
 
 export const AboutScreen = () => {
   return (
     <View>
-      <Text>AboutScreen</Text>
+      <View style={styles.container}>
+        <Header />
+        <Pdf
+          trustAllCerts={false}
+          source={{
+            uri: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+            cache: true,
+          }}
+          style={{
+            flex: 1,
+            width: Dimensions.get("window").width,
+            height: Dimensions.get("window").height,
+          }}
+        />
+      </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    height: "100%",
+  },
+});

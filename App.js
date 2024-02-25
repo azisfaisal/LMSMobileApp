@@ -21,6 +21,9 @@ import { EvaluationScreen } from "./Screen/EvaluationScreen";
 import { SimulationScreen } from "./Screen/SimulationScreen";
 import { AboutScreen } from "./Screen/AboutScreen";
 import { DescriptionScreen } from "./Screen/DescriptionScreen";
+import { ProfileScreen } from "./Screen/ProfileScreen";
+import { QuestionScreen } from "./Screen/QuestionScreen";
+import { ResultScreen } from "./Screen/ResultScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -42,6 +45,9 @@ const App = () => {
           <Stack.Screen name="Subject" component={SubjectScreen} />
           <Stack.Screen name="Tutorial" component={TutorialScreen} />
           <Stack.Screen name="Main" component={Main} />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="Pertanyaan" component={QuestionScreen} />
+          <Stack.Screen name="Hasil" component={ResultScreen} />
         </Stack.Navigator>
       </SafeAreaView>
     </NavigationContainer>

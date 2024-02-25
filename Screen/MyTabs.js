@@ -78,13 +78,13 @@ export const MyTabs = () => {
             >
               <AntDesign
                 name="home"
-                color={COLORS.tertiary}
+                color={COLORS.grey}
                 size={24}
                 style={{ position: "absolute", top: 5 }}
               />
               <Text
                 style={{
-                  color: COLORS.tertiary,
+                  color: COLORS.grey,
                   position: "absolute",
                   bottom: 40,
                 }}
@@ -155,13 +155,13 @@ export const MyTabs = () => {
             >
               <AntDesign
                 name="book"
-                color={COLORS.tertiary}
+                color={COLORS.grey}
                 size={24}
                 style={{ position: "absolute", top: 5 }}
               />
               <Text
                 style={{
-                  color: COLORS.tertiary,
+                  color: COLORS.grey,
                   position: "absolute",
                   bottom: 40,
                 }}
@@ -232,13 +232,13 @@ export const MyTabs = () => {
             >
               <AntDesign
                 name="hourglass"
-                color={COLORS.tertiary}
+                color={COLORS.grey}
                 size={24}
                 style={{ position: "absolute", top: 5 }}
               />
               <Text
                 style={{
-                  color: COLORS.tertiary,
+                  color: COLORS.grey,
                   position: "absolute",
                   bottom: 40,
                 }}
@@ -309,13 +309,13 @@ export const MyTabs = () => {
             >
               <MaterialCommunityIcons
                 name="account-question"
-                color={COLORS.tertiary}
+                color={COLORS.grey}
                 size={24}
                 style={{ position: "absolute", top: 5 }}
               />
               <Text
                 style={{
-                  color: COLORS.tertiary,
+                  color: COLORS.grey,
                   position: "absolute",
                   bottom: 40,
                 }}
@@ -386,13 +386,13 @@ export const MyTabs = () => {
             >
               <MaterialCommunityIcons
                 name="lightbulb-on-outline"
-                color={COLORS.tertiary}
+                color={COLORS.grey}
                 size={24}
                 style={{ position: "absolute", top: 5 }}
               />
               <Text
                 style={{
-                  color: COLORS.tertiary,
+                  color: COLORS.grey,
                   position: "absolute",
                   bottom: 40,
                 }}
