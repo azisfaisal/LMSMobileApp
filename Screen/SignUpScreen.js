@@ -38,10 +38,7 @@ const SignUpScreen = ({}) => {
     <ScrollView>
       <View style={styles.container}>
         <View>
-          <Image
-            source={require("../assets/favicon.png")}
-            style={styles.image}
-          />
+          <Image source={require("../assets/logo.png")} style={styles.image} />
           <Text style={styles.titleText}>
             Aplikasi Multimedia Animasi Gambar Teknik
           </Text>
@@ -88,8 +85,9 @@ const SignUpScreen = ({}) => {
 
 const styles = StyleSheet.create({
   image: {
-    width: 100,
-    height: 100,
+    width: 200,
+    height: 200,
+    marginLeft: 40,
   },
   titleText: {
     fontSize: 25,
@@ -97,6 +95,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontWeight: "bold",
     color: COLORS.primary,
+    textAlign: "center",
   },
   container: {
     flexDirection: "row",

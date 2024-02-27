@@ -10,10 +10,7 @@ export const AboutScreen = () => {
         <Header />
         <Pdf
           trustAllCerts={false}
-          source={{
-            uri: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-            cache: true,
-          }}
+          source={require("../assets/tentang.pdf")}
           style={{
             flex: 1,
             width: Dimensions.get("window").width,

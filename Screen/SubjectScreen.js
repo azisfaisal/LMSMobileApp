@@ -1,8 +1,15 @@
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import WebView from "react-native-webview";
 import { Header } from "../Components/Header";
 import { COLORS } from "../Config";
+import Pdf from "react-native-pdf";
 
 const SubjectScreen = ({}) => {
   const navigation = useNavigation();
@@ -11,11 +18,20 @@ const SubjectScreen = ({}) => {
     <View>
       <View style={styles.container}>
         <Header />
-        <WebView
+        {/* <WebView
           source={{
             uri: "https://docs.google.com/presentation/d/e/2PACX-1vR3ySPeMa2KOmIeqifuoOKPJ2CvMl8fpsfK-CAtKZixgqZf5rynDwoyUujJZ_jjyQ/pub?start=false&loop=false&delayms=3000",
           }}
           style={{ flex: 1 }}
+        /> */}
+        <Pdf
+          trustAllCerts={false}
+          source={require("../assets/deskripsi mata pelajaran.pdf")}
+          style={{
+            flex: 1,
+            width: Dimensions.get("window").width,
+            height: Dimensions.get("window").height,
+          }}
         />
       </View>
       <TouchableOpacity

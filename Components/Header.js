@@ -8,19 +8,16 @@ export const Header = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Image
-        source={require("../assets/favicon.png")}
-        style={styles.ImageStyle}
-      />
+      <Image source={require("../assets/logo.png")} style={styles.ImageStyle} />
       <Text style={styles.textHeader}>
-        Aplikasi Multimedia Animasi Gambar Teknik
+        Aplikasi Multimedia Animasi Gambar Teknik (AMMAGT)
       </Text>
       <TouchableOpacity
         onPress={() => {
           navigation.navigate("Profile");
         }}
       >
-        <FontAwesome name="user-circle-o" size={30} color="white" />
+        <FontAwesome name="user-circle-o" size={30} color={COLORS.primary} />
       </TouchableOpacity>
     </View>
   );
@@ -28,7 +25,7 @@ export const Header = () => {
 const styles = StyleSheet.create({
   container: {
     height: 70,
-    backgroundColor: COLORS.primary,
+    backgroundColor: "white",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -39,6 +36,8 @@ const styles = StyleSheet.create({
     height: 45,
   },
   textHeader: {
-    color: "white",
+    color: COLORS.primary,
+    fontWeight: "bold",
+    fontStyle: "italic",
   },
 });

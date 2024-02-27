@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { Header } from "../Components/Header";
 // import { BarChart } from "react-native-chart-kit";
 import { BarChart } from "react-native-gifted-charts";
 import { CardHistory } from "../Components/CardHistory";
 import { COLORS } from "../Config";
+import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
   const [username, setUsername] = useState("");
@@ -49,6 +58,8 @@ const HomeScreen = () => {
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     },
   ];
+
+  const navigation = useNavigation();
   return (
     <ScrollView>
       <Header />
@@ -57,16 +68,43 @@ const HomeScreen = () => {
         <View>
           <View style={styles.dashboard}>
             <View>
-              <View style={styles.cardSmall}>
-                <Text>RPP</Text>
-              </View>
-              <View style={styles.cardSmall}>
-                <Text>SIlabus</Text>
-              </View>
+              <TouchableOpacity
+                style={styles.cardSmall}
+                onPress={() => {
+                  navigation.navigate("Silabus");
+                }}
+              >
+                <Image
+                  source={require("../assets/silabus.jpg")}
+                  style={styles.imageSmall}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.cardSmall}
+                onPress={() => {
+                  navigation.navigate("Rpp");
+                }}
+              >
+                <Image
+                  source={require("../assets/rpp.jpg")}
+                  style={styles.imageSmall}
+                />
+              </TouchableOpacity>
             </View>
-            <View style={styles.cardLarge}>
-              <Text>Gambar Teknik</Text>
-            </View>
+            <TouchableOpacity
+              style={styles.cardLarge}
+              onPress={() => {
+                navigation.navigate(
+                  "PdfViewer",
+                  require("../assets/MODUL GAMBAR TEKNIK.pdf")
+                );
+              }}
+            >
+              <Image
+                source={require("../assets/gambarTeknik.jpg")}
+                style={styles.imageLarge}
+              />
+            </TouchableOpacity>
           </View>
           <FlatList
             key={"#"}
@@ -100,7 +138,7 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   cardSmall: {
-    backgroundColor: COLORS.secondary,
+    backgroundColor: COLORS.primary,
     width: 120,
     height: 120,
     borderRadius: 8,
@@ -120,13 +158,23 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   cardLarge: {
-    backgroundColor: COLORS.tertiary,
-    width: 200,
+    backgroundColor: COLORS.primary,
+    width: 220,
     height: 250,
     borderRadius: 8,
     marginTop: 10,
     justifyContent: "center",
     alignItems: "center",
+  },
+  imageLarge: {
+    width: 210,
+    height: 240,
+    borderRadius: 8,
+  },
+  imageSmall: {
+    width: 110,
+    height: 110,
+    borderRadius: 8,
   },
 });
 

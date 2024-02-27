@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "../Config";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -50,18 +50,16 @@ export const MyTabs = () => {
                   elevation: 2,
                 }}
               />
-              <AntDesign
-                name="home"
-                color={COLORS.primary}
-                size={24}
-                style={{ position: "absolute", top: 5 }}
+              <Image
+                source={require("../assets/BERANDA.png")}
+                style={styles.ImageStyle}
               />
 
               <Text
                 style={{
                   color: COLORS.primary,
                   position: "absolute",
-                  bottom: 40,
+                  bottom: 35,
                 }}
               >
                 Home
@@ -76,17 +74,15 @@ export const MyTabs = () => {
                 width: 80,
               }}
             >
-              <AntDesign
-                name="home"
-                color={COLORS.grey}
-                size={24}
-                style={{ position: "absolute", top: 5 }}
+              <Image
+                source={require("../assets/BERANDA.png")}
+                style={styles.ImageStyle}
               />
               <Text
                 style={{
                   color: COLORS.grey,
                   position: "absolute",
-                  bottom: 40,
+                  bottom: 35,
                 }}
               >
                 Home
@@ -127,18 +123,16 @@ export const MyTabs = () => {
                   elevation: 2,
                 }}
               />
-              <AntDesign
-                name="book"
-                color={COLORS.primary}
-                size={24}
-                style={{ position: "absolute", top: 5 }}
+              <Image
+                source={require("../assets/EVALUASI.png")}
+                style={styles.ImageStyle}
               />
 
               <Text
                 style={{
                   color: COLORS.primary,
                   position: "absolute",
-                  bottom: 40,
+                  bottom: 35,
                 }}
               >
                 Evaluasi
@@ -153,17 +147,15 @@ export const MyTabs = () => {
                 width: 80,
               }}
             >
-              <AntDesign
-                name="book"
-                color={COLORS.grey}
-                size={24}
-                style={{ position: "absolute", top: 5 }}
+              <Image
+                source={require("../assets/EVALUASI.png")}
+                style={styles.ImageStyle}
               />
               <Text
                 style={{
                   color: COLORS.grey,
                   position: "absolute",
-                  bottom: 40,
+                  bottom: 35,
                 }}
               >
                 Evaluasi
@@ -204,18 +196,16 @@ export const MyTabs = () => {
                   elevation: 2,
                 }}
               />
-              <AntDesign
-                name="hourglass"
-                color={COLORS.primary}
-                size={24}
-                style={{ position: "absolute", top: 5 }}
+              <Image
+                source={require("../assets/SIMULASI.png")}
+                style={styles.ImageStyle}
               />
 
               <Text
                 style={{
                   color: COLORS.primary,
                   position: "absolute",
-                  bottom: 40,
+                  bottom: 35,
                 }}
               >
                 Simulasi
@@ -230,17 +220,15 @@ export const MyTabs = () => {
                 width: 80,
               }}
             >
-              <AntDesign
-                name="hourglass"
-                color={COLORS.grey}
-                size={24}
-                style={{ position: "absolute", top: 5 }}
+              <Image
+                source={require("../assets/SIMULASI.png")}
+                style={styles.ImageStyle}
               />
               <Text
                 style={{
                   color: COLORS.grey,
                   position: "absolute",
-                  bottom: 40,
+                  bottom: 35,
                 }}
               >
                 Simulasi
@@ -281,18 +269,16 @@ export const MyTabs = () => {
                   elevation: 2,
                 }}
               />
-              <MaterialCommunityIcons
-                name="account-question"
-                color={COLORS.primary}
-                size={24}
-                style={{ position: "absolute", top: 5 }}
+              <Image
+                source={require("../assets/TENTANG.png")}
+                style={styles.ImageStyle}
               />
 
               <Text
                 style={{
                   color: COLORS.primary,
                   position: "absolute",
-                  bottom: 40,
+                  bottom: 35,
                 }}
               >
                 Tentang
@@ -307,17 +293,15 @@ export const MyTabs = () => {
                 width: 80,
               }}
             >
-              <MaterialCommunityIcons
-                name="account-question"
-                color={COLORS.grey}
-                size={24}
-                style={{ position: "absolute", top: 5 }}
+              <Image
+                source={require("../assets/TENTANG.png")}
+                style={styles.ImageStyle}
               />
               <Text
                 style={{
                   color: COLORS.grey,
                   position: "absolute",
-                  bottom: 40,
+                  bottom: 35,
                 }}
               >
                 Tentang
@@ -358,18 +342,16 @@ export const MyTabs = () => {
                   elevation: 2,
                 }}
               />
-              <MaterialCommunityIcons
-                name="lightbulb-on-outline"
-                color={COLORS.primary}
-                size={24}
-                style={{ position: "absolute", top: 5 }}
+              <Image
+                source={require("../assets/DESKRIPSI.png")}
+                style={styles.ImageStyle}
               />
 
               <Text
                 style={{
                   color: COLORS.primary,
                   position: "absolute",
-                  bottom: 40,
+                  bottom: 35,
                 }}
               >
                 Deskripsi
@@ -384,17 +366,15 @@ export const MyTabs = () => {
                 width: 80,
               }}
             >
-              <MaterialCommunityIcons
-                name="lightbulb-on-outline"
-                color={COLORS.grey}
-                size={24}
-                style={{ position: "absolute", top: 5 }}
+              <Image
+                source={require("../assets/DESKRIPSI.png")}
+                style={styles.ImageStyle}
               />
               <Text
                 style={{
                   color: COLORS.grey,
                   position: "absolute",
-                  bottom: 40,
+                  bottom: 35,
                 }}
               >
                 Deskripsi
@@ -406,3 +386,11 @@ export const MyTabs = () => {
     </>
   );
 };
+const styles = StyleSheet.create({
+  ImageStyle: {
+    position: "absolute",
+    top: 0,
+    width: 50,
+    height: 50,
+  },
+});
