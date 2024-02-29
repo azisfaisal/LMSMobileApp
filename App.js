@@ -27,6 +27,7 @@ import { ResultScreen } from "./Screen/ResultScreen";
 import { PdfViewer } from "./Screen/PdfViewer";
 import { SilabusListScreen } from "./Screen/SilabusListScreen";
 import { RppListScreen } from "./Screen/RppListScreen";
+import { TermsAndConsScreen } from "./Screen/TermsAndConsScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -54,6 +55,7 @@ const App = () => {
           <Stack.Screen name="PdfViewer" component={PdfViewer} />
           <Stack.Screen name="Silabus" component={SilabusListScreen} />
           <Stack.Screen name="Rpp" component={RppListScreen} />
+          <Stack.Screen name="TNC" component={TermsAndConsScreen} />
         </Stack.Navigator>
       </SafeAreaView>
     </NavigationContainer>
