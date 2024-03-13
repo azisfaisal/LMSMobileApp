@@ -12,6 +12,8 @@ import { COLORS } from "../Config";
 import { Header } from "../Components/Header";
 import AsyncStorage from "@react-native-community/async-storage";
 import moment from "moment";
+import "moment/locale/id";
+moment.locale("id");
 
 export const EvaluationScreen = () => {
   const navigation = useNavigation();
@@ -43,7 +45,7 @@ export const EvaluationScreen = () => {
     alert("Data Berhasil Di Ubah");
   };
 
-  const currentDate = moment().locale("ID").format("dddd, DD MMMM YYYY HH:mm");
+  const currentDate = moment().format("dddd, DD MMMM YYYY HH:mm");
   return (
     <ScrollView>
       <Header />

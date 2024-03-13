@@ -16,7 +16,7 @@ export const CardHistory = ({ item }) => {
         </View>
         <View>
           <Text style={styles.titleStyle}>{item.title}</Text>
-          <Text style={styles.descriptionStyle}>{item.description}</Text>
+          <Text style={styles.descriptionStyle}>Score: {item.score}</Text>
         </View>
       </View>
     </View>
@@ -26,17 +26,16 @@ export const CardHistory = ({ item }) => {
 const styles = StyleSheet.create({
   cardHistory: {
     backgroundColor: "white",
-    padding: 10,
-    marginVertical: 8,
     borderRadius: 8,
-    width: 350,
+    width: 330,
+    padding: 10,
+    marginTop: 10,
   },
   pictureStyle: {
     backgroundColor: COLORS.tertiary,
     width: 80,
     height: 80,
     borderRadius: 8,
-    marginTop: 10,
     justifyContent: "center",
     alignItems: "center",
   },

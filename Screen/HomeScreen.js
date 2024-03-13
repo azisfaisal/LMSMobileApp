@@ -10,56 +10,71 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { Header } from "../Components/Header";
-// import { BarChart } from "react-native-chart-kit";
 import { BarChart } from "react-native-gifted-charts";
 import { CardHistory } from "../Components/CardHistory";
 import { COLORS } from "../Config";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import ListEmpty from "../Components/ListEmpty";
 
 const HomeScreen = () => {
   const [username, setUsername] = useState("");
+  const [dataHistory, setDataHistory] = useState([]);
+  const isFocused = useIsFocused();
+  const navigation = useNavigation();
 
   useEffect(() => {
     // Ambil data dari sesion storage saat komponen dipasang
     const fetchData = async () => {
-      const storedUsername = await AsyncStorage.getItem("username");
-      if (storedUsername) {
-        setUsername(storedUsername);
+      try {
+        // const storedUsername = await AsyncStorage.getItem("username");
+        const storedResult = await AsyncStorage.getItem("result");
+
+        if (storedResult) {
+          const resultObject = JSON.parse(storedResult);
+          // Uncomment the following lines if you want to set the username as well
+          // setUsername(storedUsername);
+          // ...
+
+          // console.log(resultObject);
+
+          setDataHistory(resultObject);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
+      // }
     };
 
     fetchData();
-  }, []);
+  }, [isFocused]);
 
-  const barData = [
-    { value: 250, label: "M" },
-    { value: 500, label: "T", frontColor: "#177AD5" },
-    { value: 745, label: "W", frontColor: "#177AD5" },
-    { value: 320, label: "T" },
-    { value: 600, label: "F", frontColor: "#177AD5" },
-    { value: 256, label: "S" },
-    { value: 300, label: "S" },
-  ];
+  // const barData = [
+  //   { value: 250, label: "M" },
+  //   { value: 500, label: "T", frontColor: "#177AD5" },
+  //   { value: 745, label: "W", frontColor: "#177AD5" },
+  //   { value: 320, label: "T" },
+  //   { value: 600, label: "F", frontColor: "#177AD5" },
+  //   { value: 256, label: "S" },
+  //   { value: 300, label: "S" },
+  // ];
 
-  const dataHistory = [
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-      title: "Histori 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-    {
-      id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-      title: "Histori 2",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-    {
-      id: "58694a0f-3da1-471f-bd96-145571e29d72",
-      title: "Histori 3",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-  ];
+  const pickBar = () => {
+    let data = [];
+    dataHistory.map((item) => {
+      data.push({
+        value: item.score,
+        label: item.title,
+        status: item.status,
+        frontColor: COLORS.primary,
+      });
+    });
+    return data.filter((item) => item.status === "ready").slice(-3);
+  };
 
-  const navigation = useNavigation();
+  const lastThree = dataHistory
+    .filter((item) => item.status === "ready")
+    .slice(-3);
+
   return (
     <ScrollView>
       <Header />
@@ -106,29 +121,26 @@ const HomeScreen = () => {
               />
             </TouchableOpacity>
           </View>
-          <FlatList
-            key={"#"}
-            data={dataHistory}
-            renderItem={({ item }) => (
-              <View key={item.id}>
-                <CardHistory item={item} />
-              </View>
-            )}
-            scrollEnabled={false}
-            style={{ marginTop: 20 }}
-            // columnWrapperStyle={{ justifyContent: "space-evenly" }}
-            // numColumns={2}
-            keyExtractor={(item) => "#" + item.id}
-          />
+          <View style={styles.historyStyle}>
+            <FlatList
+              data={lastThree}
+              renderItem={({ item }) => <CardHistory item={item} />}
+              scrollEnabled={false}
+              ListEmptyComponent={() => <ListEmpty />}
+              // columnWrapperStyle={{ justifyContent: "space-evenly" }}
+              // numColumns={2}
+              keyExtractor={(item) => item.id}
+            />
+          </View>
         </View>
         <BarChart
-          barWidth={22}
+          barWidth={80}
           height={600}
-          noOfSections={3}
+          noOfSections={10}
           barBorderRadius={4}
           frontColor="lightgray"
-          data={barData}
-          yAxisThickness={0}
+          data={pickBar()}
+          yAxisThickness={1}
           xAxisThickness={0}
         />
       </View>
@@ -138,7 +150,7 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   cardSmall: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: "#C7C8CC",
     width: 120,
     height: 120,
     borderRadius: 8,
@@ -158,7 +170,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   cardLarge: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: "#C7C8CC",
     width: 220,
     height: 250,
     borderRadius: 8,
@@ -167,13 +179,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   imageLarge: {
-    width: 210,
-    height: 240,
+    width: 200,
+    height: 230,
     borderRadius: 8,
   },
   imageSmall: {
-    width: 110,
-    height: 110,
+    width: 100,
+    height: 100,
+    borderRadius: 8,
+  },
+  historyStyle: {
+    height: 340,
+    backgroundColor: "#C7C8CC",
+    marginTop: 20,
+    paddingHorizontal: 10,
     borderRadius: 8,
   },
 });
