@@ -444,7 +444,7 @@ const HomeScreen = () => {
               <Text style={styles.textEvaluasi}>Nilai Evaluasi</Text>
             </View>
             <BarChart
-              barWidth={60}
+              barWidth={45}
               height={520}
               noOfSections={5}
               barBorderRadius={4}

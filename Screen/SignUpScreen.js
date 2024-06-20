@@ -104,7 +104,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginHorizontal: "5%",
     alignItems: "center",
-    width: "60%",
+    width: "47%",
+    justifyContent: "space-between",
   },
   textInputstyle: {
     borderWidth: 1,
