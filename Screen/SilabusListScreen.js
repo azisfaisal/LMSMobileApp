@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
@@ -8,92 +8,144 @@ import {
   View,
 } from "react-native";
 import { Header } from "../Components/Header";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { CardPdfDocument } from "../Components/CardPdfDocument";
+import AsyncStorage from "@react-native-community/async-storage";
+import { PDF } from "../Config";
 
-const numColumns = 3;
+// const numColumns = 3;
 export const SilabusListScreen = () => {
   const navigation = useNavigation();
+  const [openedItemsSilabus, setOpenedItemsSilabus] = useState([]);
+  const [completedItemsSilabus, setCompletedItemsSilabus] = useState([]);
+  const [percentSilabus, setPercentSilabus] = useState(0);
+  const isFocused = useIsFocused();
+
   const data = [
     {
+      id: 1,
       image: require("../assets/pdf.png"),
       title: "01_silabus kelas x_Pengenalan dan Penggunaan Alat Gambar Teknik",
-      pdf: require("../assets/silabus_1.pdf"),
+      pdf: PDF.silabus1,
     },
     {
+      id: 2,
       image: require("../assets/pdf.png"),
       title: "02_silabus kelas x_standarisasi gambar Teknik",
-      pdf: require("../assets/silabus_2.pdf"),
+      pdf: PDF.silabus2,
     },
     {
+      id: 3,
       image: require("../assets/pdf.png"),
       title: "03_silabus kelas x_Proyeksi",
-      pdf: require("../assets/silabus_3.pdf"),
+      pdf: PDF.silabus3,
     },
     // Add more questions here
   ];
 
-  const numRows = Math.ceil(data.length / 3);
+  useEffect(() => {
+    // Ambil data dari sesion storage saat komponen dipasang
+    const fetchData = async () => {
+      try {
+        const storedSilabus = await AsyncStorage.getItem("silabus");
+        // await AsyncStorage.removeItem("silabus");
+        if (storedSilabus) {
+          console.log("stored", storedSilabus);
+          setPercentSilabus(JSON.parse(storedSilabus));
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+      // }
+    };
 
-  const rows = Array.from({ length: numRows }, (_, rowIndex) =>
-    data.slice(rowIndex * 3, rowIndex * 3 + 3)
-  );
+    fetchData();
+  }, [isFocused]);
 
-  const formatData = (data, numColumns) => {
-    const numberOfFullRows = Math.floor(data.length / numColumns);
+  useEffect(() => {
+    const loadItems = async () => {
+      try {
+        const storedOpenedItemsSilabus = await AsyncStorage.getItem(
+          "openedItemssilabus"
+        );
+        const storedCompletedItemsSilabus = await AsyncStorage.getItem(
+          "completedItemssilabus"
+        );
+        if (storedOpenedItemsSilabus) {
+          setOpenedItemsSilabus(JSON.parse(storedOpenedItemsSilabus));
+        }
+        if (storedCompletedItemsSilabus) {
+          setCompletedItemsSilabus(JSON.parse(storedCompletedItemsSilabus));
+        }
+      } catch (error) {
+        console.error("Failed to load items", error);
+      }
+    };
 
-    let numberOfElementsLastRow = data.length - numberOfFullRows * numColumns;
-    while (
-      numberOfElementsLastRow !== numColumns &&
-      numberOfElementsLastRow !== 0
-    ) {
-      data.push({ key: `blank-${numberOfElementsLastRow}`, empty: true });
-      numberOfElementsLastRow++;
+    loadItems();
+  }, []);
+
+  const handleItemPress = async (item) => {
+    // console.log("Item pressed:", item); // Debug statement
+    if (!openedItemsSilabus.includes(item.id)) {
+      const newOpenedItemsSilabus = [...openedItemsSilabus, item.id];
+      setOpenedItemsSilabus(newOpenedItemsSilabus);
+      try {
+        await AsyncStorage.setItem(
+          "openedItemssilabus",
+          JSON.stringify(newOpenedItemsSilabus)
+        );
+      } catch (error) {
+        console.error("Failed to save opened items", error);
+      }
     }
-
-    return data;
+    navigation.navigate("PdfViewer", {
+      pdf: item.pdf,
+      onComplete: () => handlePdfComplete(item.id),
+    });
   };
 
-  const renderRow = ({ item }) => {
-    if (item.empty === true) {
-      return <View style={[styles.item, styles.itemInvisible]} />;
+  const handlePdfComplete = async (id) => {
+    let number = percentSilabus + 33;
+    if (percentSilabus < 100) {
+      if (number === 99) {
+        await AsyncStorage.setItem("silabus", "100");
+      } else {
+        await AsyncStorage.setItem("silabus", JSON.stringify(number));
+      }
     }
-    return (
-      <TouchableOpacity
-        style={styles.container}
-        onPress={() => {
-          navigation.navigate("PdfViewer", item.pdf);
-        }}
-      >
-        <Image source={item.image} style={styles.imageStyle} />
-        <Text style={styles.textStyle}>{item.title}</Text>
-      </TouchableOpacity>
-    );
+    if (!completedItemsSilabus.includes(id)) {
+      const newCompletedItemsSilabus = [...completedItemsSilabus, id];
+      setCompletedItems(newCompletedItemsSilabus);
+      try {
+        await AsyncStorage.setItem(
+          "completedItemssilabus",
+          JSON.stringify(newCompletedItemsSilabus)
+        );
+      } catch (error) {
+        console.error("Failed to save completed items", error);
+      }
+    }
   };
+
   return (
     <View>
       <Header />
-      {/* <FlatList
-        data={data}
-        renderItem={({ item }) => <CardListPdf item={item} />}
-        columnWrapperStyle={{
-          gap: 70,
-          marginVertical: 10,
-          marginHorizontal: 20,
-        }}
-        numColumns={3}
-        style={{ marginBottom: "10%" }}
-      /> */}
       <FlatList
-        data={formatData(data, numColumns)}
-        renderItem={renderRow}
-        keyExtractor={(row, index) => `row_${index}`}
-        columnWrapperStyle={{
-          gap: 70,
-          marginVertical: 10,
-          marginHorizontal: 20,
-        }}
-        numColumns={numColumns}
-        style={{ marginBottom: "10%" }}
+        data={data}
+        renderItem={({ item }) => (
+          <CardPdfDocument
+            item={item}
+            tipe={"silabus"}
+            onPress={() => handleItemPress(item)}
+            isOpened={openedItemsSilabus.includes(item.id)}
+          />
+        )}
+        ListEmptyComponent={() => <ListEmpty />}
+        // columnWrapperStyle={{ justifyContent: "space-evenly" }}
+        // numColumns={2}
+        style={{ marginTop: 20, marginHorizontal: 20 }}
+        keyExtractor={(item) => item.id}
       />
     </View>
   );

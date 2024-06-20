@@ -28,6 +28,14 @@ import { PdfViewer } from "./Screen/PdfViewer";
 import { SilabusListScreen } from "./Screen/SilabusListScreen";
 import { RppListScreen } from "./Screen/RppListScreen";
 import { TermsAndConsScreen } from "./Screen/TermsAndConsScreen";
+import { DetailHistoryScreen } from "./Screen/DetailHistoryScreen";
+import { DetailBarScreen } from "./Screen/DetailBarScreen";
+import { ListHistoryScreen } from "./Screen/ListHistoryScreen";
+import { ListVideo } from "./Screen/ListVideo";
+import { VideoPlayerScreen } from "./Screen/VideoPlayerScreen";
+import MainSimulatiom from "./Screen/MainSimulatiom";
+import { MyTabsSimulation } from "./Screen/MyTabsSimulation";
+import { ListVideoEropa } from "./Screen/ListVideoEropa";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -49,6 +57,7 @@ const App = () => {
           <Stack.Screen name="Subject" component={SubjectScreen} />
           <Stack.Screen name="Tutorial" component={TutorialScreen} />
           <Stack.Screen name="Main" component={Main} />
+          <Stack.Screen name="MainSimulatiom" component={MainSimulatiom} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="Pertanyaan" component={QuestionScreen} />
           <Stack.Screen name="Hasil" component={ResultScreen} />
@@ -56,6 +65,11 @@ const App = () => {
           <Stack.Screen name="Silabus" component={SilabusListScreen} />
           <Stack.Screen name="Rpp" component={RppListScreen} />
           <Stack.Screen name="TNC" component={TermsAndConsScreen} />
+          <Stack.Screen name="DetailHistory" component={DetailHistoryScreen} />
+          <Stack.Screen name="DetailBar" component={DetailBarScreen} />
+          <Stack.Screen name="ListHistory" component={ListHistoryScreen} />
+          {/* <Stack.Screen name="ListVideo" component={ListVideo} /> */}
+          <Stack.Screen name="VideoPlayer" component={VideoPlayerScreen} />
         </Stack.Navigator>
       </SafeAreaView>
     </NavigationContainer>
@@ -92,6 +106,28 @@ export const BottomTabs = () => {
         <Tab.Screen
           name="Deskripsi"
           component={DescriptionScreen}
+          options={{ headerShown: false }}
+        />
+      </Tab.Navigator>
+    </View>
+  );
+};
+
+export const BottomTabsSimulasi = () => {
+  return (
+    <View style={{ height: Platform.OS === "ios" ? "100%" : height }}>
+      <Tab.Navigator
+        tabBar={(props) => <MyTabsSimulation {...props} />}
+        initialRouteName="ListVideo"
+      >
+        <Tab.Screen
+          name="ListVideo"
+          component={ListVideo}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="ListVideoEropa"
+          component={ListVideoEropa}
           options={{ headerShown: false }}
         />
       </Tab.Navigator>

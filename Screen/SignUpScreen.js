@@ -28,7 +28,7 @@ const SignUpScreen = ({}) => {
       await AsyncStorage.setItem("password", password);
       await AsyncStorage.setItem("NISN", NISN);
       await AsyncStorage.setItem("grade", grade);
-      navigation.navigate("Login");
+      navigation.navigate("Subject");
     } else {
       alert("Mohon Lengakapi Form");
     }
@@ -39,12 +39,16 @@ const SignUpScreen = ({}) => {
       <View style={styles.container}>
         <View>
           <Image source={require("../assets/logo.png")} style={styles.image} />
+          <View style={styles.line} />
           <Text style={styles.titleText}>
             Aplikasi Multimedia Animasi Gambar Teknik
           </Text>
         </View>
 
-        <View>
+        <View style={styles.cardLogin}>
+          <View style={styles.label}>
+            <Text style={styles.labelText}>Daftar</Text>
+          </View>
           <Text style={styles.subTitle}>Username</Text>
           <TextInput
             placeholder="Masukan Username"
@@ -75,7 +79,7 @@ const SignUpScreen = ({}) => {
             style={styles.textInputstyle}
           />
           <TouchableOpacity style={styles.buttonStyle} onPress={handleSignUp}>
-            <Text style={styles.textButton}>Sign Up</Text>
+            <Text style={styles.textButton}>Daftar</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -87,22 +91,20 @@ const styles = StyleSheet.create({
   image: {
     width: 200,
     height: 200,
-    marginLeft: 40,
   },
   titleText: {
     fontSize: 25,
-    maxWidth: "65%",
-    marginTop: 10,
+    maxWidth: "83%",
     fontWeight: "bold",
-    color: COLORS.primary,
+    color: COLORS.secondary,
     textAlign: "center",
   },
   container: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 20,
+    marginTop: 10,
     marginHorizontal: "5%",
     alignItems: "center",
+    width: "60%",
   },
   textInputstyle: {
     borderWidth: 1,
@@ -110,21 +112,23 @@ const styles = StyleSheet.create({
     width: 300,
     padding: 10,
     marginTop: 10,
+    borderColor: COLORS.secondary,
   },
   buttonStyle: {
     borderRadius: 8,
     width: 300,
     padding: 10,
-    marginVertical: 10,
-    backgroundColor: COLORS.primary,
+    marginTop: 30,
+    backgroundColor: COLORS.secondary,
     alignItems: "center",
   },
   textButton: {
     color: "white",
   },
   subTitle: {
-    color: "#72777a",
+    color: COLORS.primary,
     marginTop: 10,
+    fontWeight: "bold",
   },
   contentSignUp: {
     flexDirection: "row",
@@ -135,6 +139,35 @@ const styles = StyleSheet.create({
   },
   textSignUp: {
     color: COLORS.primary,
+  },
+  line: {
+    width: 60,
+    height: 10,
+    borderRadius: 4,
+    backgroundColor: COLORS.secondary,
+    marginVertical: 20,
+  },
+  cardLogin: {
+    backgroundColor: "white",
+    padding: 40,
+    borderRadius: 20,
+    marginBottom: 10,
+  },
+  label: {
+    backgroundColor: COLORS.secondary,
+    position: "absolute",
+    top: 0,
+    width: 380,
+    height: 40,
+    flex: 1,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  labelText: {
+    fontWeight: "bold",
+    color: "white",
   },
 });
 

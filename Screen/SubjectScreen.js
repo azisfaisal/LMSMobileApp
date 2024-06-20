@@ -8,7 +8,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import WebView from "react-native-webview";
 import { Header } from "../Components/Header";
-import { COLORS } from "../Config";
+import { COLORS, PDF } from "../Config";
 import Pdf from "react-native-pdf";
 
 const SubjectScreen = ({}) => {
@@ -26,7 +26,7 @@ const SubjectScreen = ({}) => {
         /> */}
         <Pdf
           trustAllCerts={false}
-          source={require("../assets/deskripsi mata pelajaran.pdf")}
+          source={{ uri: PDF.deskripsi }}
           style={{
             flex: 1,
             width: Dimensions.get("window").width,
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
     marginVertical: 10,
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.secondary,
     alignItems: "center",
     marginHorizontal: 20,
     width: 150,

@@ -48,7 +48,10 @@ export const EvaluationScreen = () => {
   const currentDate = moment().format("dddd, DD MMMM YYYY HH:mm");
   return (
     <ScrollView>
-      <Header />
+      <Header tipe={"evaluasi"} />
+      <View style={styles.HeaderStyle}>
+        <Text style={styles.textHeader}>Ujian Evaluasi</Text>
+      </View>
       <View style={styles.container}>
         <View>
           <Text style={styles.subTitle}>Username</Text>
@@ -87,10 +90,11 @@ export const EvaluationScreen = () => {
             <Text>{currentDate}</Text>
           </View>
           <Text style={styles.desText}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Perikasalah data diri anda sebelum melaksanakan ujian evaluasi, data
+            yang anda lihat di layar merupakan data yang akan terekam di
+            “Riwayat Ujian Evaluasi”. serta akan diakumulasikan pada “Grafik
+            Riwayat Ujian Evaluasi”. Waktu Pelaksanaan akan dimulai ketika anda
+            menekan tombol “Mulai Ujian Evaluasi”.
           </Text>
           <TouchableOpacity
             style={styles.buttonStyle}
@@ -112,7 +116,7 @@ const styles = StyleSheet.create({
     width: 300,
     padding: 10,
     marginVertical: 10,
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.secondary,
     alignItems: "center",
   },
   textButton: {
@@ -121,7 +125,12 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginTop: 10,
+    marginBottom: 120,
+    backgroundColor: "white",
+    width: "90%",
+    marginHorizontal: 40,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
   textInputstyle: {
     borderWidth: 1,
@@ -129,13 +138,33 @@ const styles = StyleSheet.create({
     width: 300,
     padding: 10,
     marginTop: 10,
+    borderColor: COLORS.secondary,
   },
   subTitle: {
-    color: "#72777a",
+    color: COLORS.primary,
+    fontWeight: "bold",
     marginTop: 10,
   },
   desText: {
     width: 300,
     marginTop: 10,
+    color: COLORS.primary,
+  },
+  HeaderStyle: {
+    backgroundColor: COLORS.secondary,
+    padding: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "90%",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    marginTop: 20,
+    marginHorizontal: 40,
+  },
+  textHeader: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
+    marginLeft: 20,
   },
 });

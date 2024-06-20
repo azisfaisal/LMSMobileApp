@@ -14,8 +14,13 @@ export const MyTabs = () => {
           flexDirection: "row",
           backgroundColor: "white",
           justifyContent: "space-around",
-          borderTopLeftRadius: 16,
-          borderTopRightRadius: 16,
+          borderRadius: 20,
+          elevation: 20,
+          position: "absolute",
+          bottom: 35,
+          width: "95%",
+          marginHorizontal: 20,
+          height: 65,
         }}
       >
         <TouchableOpacity
@@ -39,12 +44,12 @@ export const MyTabs = () => {
                 style={{
                   width: "100%",
                   height: 3,
-                  backgroundColor: COLORS.primary,
+                  backgroundColor: COLORS.secondary,
                   position: "absolute",
                   top: 0,
                   //shadow ios
                   shadowOffset: { width: -2, height: 5 },
-                  shadowColor: COLORS.primary,
+                  shadowColor: COLORS.secondary,
                   shadowOpacity: 0.4,
                   //shadow android
                   elevation: 2,
@@ -57,7 +62,7 @@ export const MyTabs = () => {
 
               <Text
                 style={{
-                  color: COLORS.primary,
+                  color: COLORS.secondary,
                   position: "absolute",
                   bottom: 35,
                 }}
@@ -112,12 +117,12 @@ export const MyTabs = () => {
                 style={{
                   width: "100%",
                   height: 3,
-                  backgroundColor: COLORS.primary,
+                  backgroundColor: COLORS.secondary,
                   position: "absolute",
                   top: 0,
                   //shadow ios
                   shadowOffset: { width: -2, height: 5 },
-                  shadowColor: COLORS.primary,
+                  shadowColor: COLORS.secondary,
                   shadowOpacity: 0.4,
                   //shadow android
                   elevation: 2,
@@ -130,7 +135,7 @@ export const MyTabs = () => {
 
               <Text
                 style={{
-                  color: COLORS.primary,
+                  color: COLORS.secondary,
                   position: "absolute",
                   bottom: 35,
                 }}
@@ -168,7 +173,7 @@ export const MyTabs = () => {
           key={3}
           onPress={() => {
             setTabItemIndex(3);
-            navigation.navigate("Simulasi", { unread: false });
+            navigation.navigate("MainSimulatiom", { unread: false });
             // props.navigation.navigate('Home', { unread: false })
           }}
         >
@@ -185,12 +190,12 @@ export const MyTabs = () => {
                 style={{
                   width: "100%",
                   height: 3,
-                  backgroundColor: COLORS.primary,
+                  backgroundColor: COLORS.secondary,
                   position: "absolute",
                   top: 0,
                   //shadow ios
                   shadowOffset: { width: -2, height: 5 },
-                  shadowColor: COLORS.primary,
+                  shadowColor: COLORS.secondary,
                   shadowOpacity: 0.4,
                   //shadow android
                   elevation: 2,
@@ -203,7 +208,7 @@ export const MyTabs = () => {
 
               <Text
                 style={{
-                  color: COLORS.primary,
+                  color: COLORS.secondary,
                   position: "absolute",
                   bottom: 35,
                 }}
@@ -258,12 +263,12 @@ export const MyTabs = () => {
                 style={{
                   width: "100%",
                   height: 3,
-                  backgroundColor: COLORS.primary,
+                  backgroundColor: COLORS.secondary,
                   position: "absolute",
                   top: 0,
                   //shadow ios
                   shadowOffset: { width: -2, height: 5 },
-                  shadowColor: COLORS.primary,
+                  shadowColor: COLORS.secondary,
                   shadowOpacity: 0.4,
                   //shadow android
                   elevation: 2,
@@ -276,7 +281,7 @@ export const MyTabs = () => {
 
               <Text
                 style={{
-                  color: COLORS.primary,
+                  color: COLORS.secondary,
                   position: "absolute",
                   bottom: 35,
                 }}
@@ -331,12 +336,12 @@ export const MyTabs = () => {
                 style={{
                   width: "100%",
                   height: 3,
-                  backgroundColor: COLORS.primary,
+                  backgroundColor: COLORS.secondary,
                   position: "absolute",
                   top: 0,
                   //shadow ios
                   shadowOffset: { width: -2, height: 5 },
-                  shadowColor: COLORS.primary,
+                  shadowColor: COLORS.secondary,
                   shadowOpacity: 0.4,
                   //shadow android
                   elevation: 2,
@@ -349,7 +354,7 @@ export const MyTabs = () => {
 
               <Text
                 style={{
-                  color: COLORS.primary,
+                  color: COLORS.secondary,
                   position: "absolute",
                   bottom: 35,
                 }}
