@@ -177,13 +177,23 @@ export const ResultScreen = () => {
     <View style={{ alignItems: "center" }}>
       <View style={styles.cardDetail}>
         <View style={styles.HeaderStyle}>
-          <Text style={styles.textHeader}>{title}</Text>
+          <Text style={styles.textHeader}>Hasil Latihan Gambar Teknik</Text>
+          <TouchableOpacity
+            onPress={() => {
+              // navigation.navigate("Home");
+              setType("save");
+              setSave(true);
+              setModalWarning(true);
+            }}
+          >
+            <AntDesign name="closecircleo" size={24} color={"white"} />
+          </TouchableOpacity>
         </View>
         <View>
           <View style={styles.cardLeft}>
             <FontAwesome
               name="user-circle-o"
-              size={100}
+              size={60}
               color={COLORS.secondary}
             />
             <View style={styles.wrapText}>
@@ -236,14 +246,13 @@ export const ResultScreen = () => {
             style={styles.buttonStyle}
             onPress={() => {
               setType("save");
-              setSave(true);
-              setModalWarning(true);
-              // handleSaveHistory();
-              // navigation.navigate("Home");
+              handleSaveHistory();
+              setModalValidation(true);
+              navigation.navigate("Home");
             }}
           >
             <View style={styles.borderStyle}>
-              <AntDesign name="save" size={24} color={COLORS.secondary} />
+              <AntDesign name="save" size={20} color={COLORS.secondary} />
             </View>
             <Text style={styles.textStyle}>Simpan Ke Riwayat</Text>
           </TouchableOpacity>
@@ -258,7 +267,7 @@ export const ResultScreen = () => {
             }}
           >
             <View style={styles.borderStyle}>
-              <AntDesign name="delete" size={24} color={COLORS.secondary} />
+              <AntDesign name="delete" size={20} color={COLORS.secondary} />
             </View>
             <Text style={styles.textStyle}>Delete</Text>
           </TouchableOpacity>
@@ -273,7 +282,7 @@ export const ResultScreen = () => {
             <View style={styles.borderStyle}>
               <FontAwesome5
                 name="cloud-download-alt"
-                size={24}
+                size={20}
                 color={COLORS.secondary}
               />
             </View>
@@ -321,7 +330,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     marginTop: 10,
-    fontSize: 16,
+    fontSize: 12,
     color: COLORS.primary,
   },
   imgaeStyle: {
@@ -330,6 +339,7 @@ const styles = StyleSheet.create({
   },
   actionStyle: {
     flexDirection: "row",
+    marginTop: 5,
   },
   container: {
     justifyContent: "center",
@@ -338,7 +348,7 @@ const styles = StyleSheet.create({
   cardDetail: {
     backgroundColor: "white",
     width: "75%",
-    height: "73%",
+    height: "70%",
     marginTop: 10,
     elevation: 30,
   },

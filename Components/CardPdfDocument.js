@@ -1,17 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "../Config";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { Loading } from "./Loading";
 
 export const CardPdfDocument = ({ item, onPress, isOpened }) => {
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
+
   return (
     <View>
+      {loading ? <Loading /> : null}
       <TouchableOpacity
         style={styles.cardList}
         onPress={() => {
-          onPress();
+          setLoading(true);
+          setTimeout(() => {
+            setLoading(false);
+            onPress();
+          }, 2000);
         }}
       >
         <View style={styles.cardFile}>

@@ -17,18 +17,21 @@ import { useIsFocused, useNavigation } from "@react-navigation/native";
 import ListEmpty from "../Components/ListEmpty";
 import { AntDesign } from "@expo/vector-icons";
 import ProgressCircle from "react-native-progress-circle";
+import { Loading } from "../Components/Loading";
+import { ProgressChart } from "react-native-chart-kit";
 
 const HomeScreen = () => {
   const [username, setUsername] = useState("");
   const [dataHistory, setDataHistory] = useState([]);
   const [rppProgress, setRppProgress] = useState(0);
-  const [percentRpp, setPercentRpp] = useState("0");
+  const [percentRpp, setPercentRpp] = useState(0);
   const [silabusProgress, setSilabusProgress] = useState(0);
-  const [percentSilabus, setPercentSilabus] = useState("0");
+  const [percentSilabus, setPercentSilabus] = useState(0);
   const [ModulProgress, setModulProgress] = useState(0);
-  const [percentModul, setPercentModul] = useState("0");
-  const [percentEvaluasi, setPercentEvaluasi] = useState("0");
-  const [percentSimulasi, setPercentSimulasi] = useState("0");
+  const [percentModul, setPercentModul] = useState(0);
+  const [percentEvaluasi, setPercentEvaluasi] = useState(0);
+  const [percentSimulasi, setPercentSimulasi] = useState(0);
+  const [loading, setLoading] = useState(false);
   const isFocused = useIsFocused();
   const navigation = useNavigation();
 
@@ -43,6 +46,10 @@ const HomeScreen = () => {
         const storedModul = await AsyncStorage.getItem("modul");
         const storedEvaluasi = await AsyncStorage.getItem("evaluasi");
         const storedSimulasi = await AsyncStorage.getItem("simulasi");
+        // await AsyncStorage.removeItem("username");
+        // await AsyncStorage.removeItem("NISN");
+        // await AsyncStorage.removeItem("grade");
+        // await AsyncStorage.removeItem("avatar");
 
         if (storedResult) {
           const resultObject = JSON.parse(storedResult);
@@ -52,11 +59,20 @@ const HomeScreen = () => {
 
         if (storedUsername) {
           setUsername(storedUsername);
-          console.log(storedSilabus, "cek");
+        }
+        if (JSON.parse(storedRpp !== null)) {
           setPercentRpp(JSON.parse(storedRpp));
+        }
+        if (JSON.parse(storedSilabus !== null)) {
           setPercentSilabus(JSON.parse(storedSilabus));
+        }
+        if (JSON.parse(storedModul !== null)) {
           setPercentModul(JSON.parse(storedModul));
+        }
+        if (JSON.parse(storedEvaluasi !== null)) {
           setPercentEvaluasi(JSON.parse(storedEvaluasi));
+        }
+        if (JSON.parse(storedSimulasi !== null)) {
           setPercentSimulasi(JSON.parse(storedSimulasi));
         }
       } catch (error) {
@@ -112,11 +128,32 @@ const HomeScreen = () => {
     percentEvaluasi +
     percentSimulasi;
   const roundedPercent = Math.round((totalPercent / 500) * 100);
+  const roundedPercentResult = totalPercent / 500;
 
-  console.log(percentRpp);
+  const data = {
+    labels: ["result"], // optional
+    data: [roundedPercentResult],
+  };
 
+  console.log(roundedPercentResult, "bulet");
+  console.log(totalPercent, "percent");
+  console.log(percentRpp, "rpp");
+  console.log(percentSilabus, "silabus");
+  console.log(percentEvaluasi, "evaluasi");
+  console.log(percentSimulasi, "simulasi");
+  console.log(percentModul, "modul");
+  console.log(totalPercent, "total");
+
+  const chartConfig = {
+    backgroundGradientFrom: "#1E2923",
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: "red",
+    backgroundGradientToOpacity: 0,
+    color: (opacity = 1) => `rgba(45, 149, 150, ${opacity})`,
+  };
   return (
     <ScrollView>
+      {loading ? <Loading /> : null}
       <Header tipe={"home"} />
       {/* <Text>Welcome, {username}!</Text> */}
       <View style={styles.container}>
@@ -130,7 +167,7 @@ const HomeScreen = () => {
             >
               <View
                 style={{
-                  width: "56%",
+                  width: "55%",
                   backgroundColor: "#E7E7E7",
                   padding: 10,
                   marginTop: 10,
@@ -149,7 +186,7 @@ const HomeScreen = () => {
                     <Text
                       style={{
                         color: COLORS.grey,
-                        fontSize: 15,
+                        fontSize: 12,
                       }}
                     >
                       RPP
@@ -182,7 +219,7 @@ const HomeScreen = () => {
                     <Text
                       style={{
                         color: COLORS.grey,
-                        fontSize: 15,
+                        fontSize: 12,
                       }}
                     >
                       Silabus
@@ -215,8 +252,8 @@ const HomeScreen = () => {
                     <Text
                       style={{
                         color: COLORS.grey,
-                        fontSize: 15,
-                        width: 100,
+                        fontSize: 12,
+                        width: 50,
                       }}
                     >
                       Modul Gambar Teknik
@@ -249,7 +286,7 @@ const HomeScreen = () => {
                     <Text
                       style={{
                         color: COLORS.grey,
-                        fontSize: 15,
+                        fontSize: 12,
                       }}
                     >
                       Evaluasi
@@ -282,7 +319,7 @@ const HomeScreen = () => {
                     <Text
                       style={{
                         color: COLORS.grey,
-                        fontSize: 15,
+                        fontSize: 12,
                       }}
                     >
                       Simulasi
@@ -305,24 +342,43 @@ const HomeScreen = () => {
                 </View>
               </View>
 
-              <View>
-                <ProgressCircle
+              <View style={{ alignItems: "center" }}>
+                {/* <ProgressCircle
                   percent={roundedPercent}
-                  radius={70}
+                  radius={60}
                   borderWidth={10}
                   color={COLORS.secondary}
                   shadowColor="#E7E7E7"
                   bgColor="#fff"
                 >
                   <Text style={{ fontSize: 18 }}>{roundedPercent}%</Text>
-                </ProgressCircle>
+                </ProgressCircle> */}
+                <ProgressChart
+                  data={data}
+                  width={120}
+                  height={150}
+                  strokeWidth={16}
+                  radius={50}
+                  hideLegend={true}
+                  chartConfig={chartConfig}
+                  center={12}
+                />
+                <Text
+                  style={{
+                    fontSize: 18,
+                    position: "absolute",
+                    top: "16%",
+                  }}
+                >
+                  {roundedPercent}%
+                </Text>
                 <Text
                   style={{
                     marginTop: 10,
-                    width: 150,
+                    width: 100,
                     textAlign: "center",
                     color: COLORS.grey,
-                    fontSize: 15,
+                    fontSize: 12,
                   }}
                 >
                   Fitur Aplikasi Digunakan
@@ -405,10 +461,14 @@ const HomeScreen = () => {
                 // if (percentModul < 100) {
                 //   resultModul(number);
                 // }
-                navigation.navigate("PdfViewer", {
-                  pdf: PDF.modul,
-                  onComplete: "modul",
-                });
+                setLoading(true);
+                setTimeout(() => {
+                  setLoading(false);
+                  navigation.navigate("PdfViewer", {
+                    pdf: PDF.modul,
+                    onComplete: "modul",
+                  });
+                }, 2000);
               }}
             >
               <Image
@@ -488,8 +548,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     flexDirection: "row",
-    gap: 10,
     justifyContent: "center",
+    gap: 10,
   },
   dashboard: {
     flexDirection: "row",
@@ -500,7 +560,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 8,
     padding: 10,
-    width: "46%",
+    width: 300,
   },
   cardLarge: {
     backgroundColor: COLORS.tertiary,
@@ -554,7 +614,7 @@ const styles = StyleSheet.create({
   },
   historyStyle: {
     height: 400,
-    width: 350,
+    width: 300,
     backgroundColor: COLORS.tertiary,
     // marginTop: 20,
     paddingHorizontal: 10,
@@ -563,7 +623,7 @@ const styles = StyleSheet.create({
   },
   ProgressStyle: {
     height: 460,
-    width: 350,
+    width: 300,
     backgroundColor: "white",
     // marginTop: 20,
     paddingHorizontal: 10,
@@ -582,7 +642,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.primary,
   },
   titleBar: {
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: "bold",
     color: COLORS.primary,
   },

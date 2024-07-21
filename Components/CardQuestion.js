@@ -9,12 +9,23 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Fontisto } from "@expo/vector-icons";
+import { Fontisto, AntDesign } from "@expo/vector-icons";
 import { COLORS } from "../Config";
+import { CardWarning } from "./CardWarning";
 
 const numColumns = 1;
 
-export const CardQuestion = ({ question, answer, onPress, index, image }) => {
+export const CardQuestion = ({
+  question,
+  answer,
+  onPress,
+  index,
+  image,
+  answerSelected,
+  questionIndex,
+  prevQuestion,
+  nextQuestion,
+}) => {
   const numRows = Math.ceil(answer.length / 2);
 
   const rows = Array.from({ length: numRows }, (_, rowIndex) =>
@@ -37,6 +48,18 @@ export const CardQuestion = ({ question, answer, onPress, index, image }) => {
   };
 
   const [checked, setChecked] = useState([]);
+  const [modalValidation, setModalValidation] = useState(false);
+  const [modalWarning, setModalWarning] = useState(false);
+
+  const closeValidation = () => {
+    setModalValidation(false);
+  };
+
+  const closeWarning = () => {
+    setModalWarning(false);
+  };
+
+  console.log(index);
   const renderRow = ({ item }) => {
     if (item.empty === true) {
       return <View style={[styles.item, styles.itemInvisible]} />;
@@ -48,10 +71,15 @@ export const CardQuestion = ({ question, answer, onPress, index, image }) => {
             // const tmp = [...checked];
             // tmp.push(item);
             // console.log(tmp);
-            setChecked((prev) => [...prev, item]);
             setTimeout(() => {
+              console.log(item);
               onPress(index, item);
             }, 1000);
+            setChecked((prev) => {
+              const updatedChecked = [...prev]; // Salin array checked
+              updatedChecked[index] = item; // Ubah nilai pada indeks 0 menjadi true
+              return updatedChecked; // Kembalikan array yang telah diubah
+            });
           }}
           style={{
             flexDirection: "row",
@@ -89,7 +117,27 @@ export const CardQuestion = ({ question, answer, onPress, index, image }) => {
             style={styles.ImageStyle}
           />
           <View>
-            <Text style={styles.textTitle}>UJIAN EVALUASI AMMAGT</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "88%",
+              }}
+            >
+              <Text style={styles.textTitle}>UJIAN EVALUASI AMMAGT</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalWarning(true);
+                }}
+              >
+                <AntDesign
+                  name="closecircleo"
+                  size={24}
+                  color={COLORS.secondary}
+                />
+              </TouchableOpacity>
+            </View>
             <View style={styles.line} />
           </View>
         </View>
@@ -119,6 +167,15 @@ export const CardQuestion = ({ question, answer, onPress, index, image }) => {
               scrollEnabled={false}
             />
           </View>
+
+          <CardWarning
+            contain={"Apakah anda yakin akan mengakhiri ujian evaluasi?"}
+            containTrue={"Akhiri"}
+            containFalse={"Kembali"}
+            setModalValidation={setModalValidation}
+            modalWarning={modalWarning}
+            closeWarning={closeWarning}
+          />
 
           <View style={styles.borderIndicator}>
             <Text style={styles.numberText}>Indikator Soal</Text>
@@ -489,6 +546,45 @@ export const CardQuestion = ({ question, answer, onPress, index, image }) => {
             </View>
           </View>
         </View>
+        {answerSelected && (
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 10,
+              justifyContent: index === 24 ? "space-between" : null,
+            }}
+          >
+            {questionIndex > 0 && (
+              <TouchableOpacity
+                onPress={() => {
+                  prevQuestion();
+                }}
+                style={styles.buttonActionStyle}
+              >
+                <Text style={styles.textButtonAction}>Kembali</Text>
+              </TouchableOpacity>
+            )}
+            {index === 24 ? (
+              <TouchableOpacity
+                onPress={() => {
+                  nextQuestion();
+                }}
+                style={styles.buttonActionStyle}
+              >
+                <Text style={styles.textButtonAction}>Selesai</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={() => {
+                  nextQuestion();
+                }}
+                style={styles.buttonActionStyle}
+              >
+                <Text style={styles.textButtonAction}>Selanjutnya</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        )}
       </View>
     </ScrollView>
   );
@@ -599,7 +695,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   textTitle: {
-    fontSize: 30,
+    fontSize: 20,
     color: COLORS.secondary,
     fontWeight: "bold",
   },
@@ -610,5 +706,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
+  },
+  buttonActionStyle: {
+    borderRadius: 8,
+    padding: 5,
+    marginTop: 20,
+    backgroundColor: COLORS.secondary,
+    alignItems: "center",
+    width: 90,
+  },
+  textButtonAction: {
+    color: "white",
+    fontSize: 12,
   },
 });

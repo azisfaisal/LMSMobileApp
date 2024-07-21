@@ -1,9 +1,17 @@
 import React from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Header } from "../Components/Header";
 import ListEmpty from "../Components/ListEmpty";
 import { CardListVideo } from "../Components/CardListVideo";
 import { COLORS } from "../Config";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export const ListVideoEropa = () => {
   item = {
@@ -129,14 +137,34 @@ export const ListVideoEropa = () => {
       },
     ],
   };
+  const navigation = useNavigation();
   return (
     <View style={{ justifyContent: "center", alignItems: "center" }}>
       <Header />
       <View style={styles.container}>
         <View style={styles.cardJudul}>
-          <Text style={styles.textJudul}>
-            Materi Simulasi Proyeksi Orthogonal Eropa
-          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Text style={styles.textJudul}>
+              Materi Simulasi Proyeksi Orthogonal Eropa
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Simulasi");
+              }}
+            >
+              <Ionicons
+                name="arrow-back-circle-outline"
+                size={30}
+                color={COLORS.secondary}
+              />
+            </TouchableOpacity>
+          </View>
           <View style={styles.line} />
         </View>
         <FlatList
@@ -148,9 +176,6 @@ export const ListVideoEropa = () => {
           scrollEnabled={true}
           // columnWrapperStyle={{ justifyContent: "space-evenly" }}
           numColumns={4}
-          style={{
-            height: 100,
-          }}
           keyExtractor={(item) => item.id}
         />
       </View>
@@ -160,9 +185,10 @@ export const ListVideoEropa = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    padding: 20,
+    padding: 10,
     marginTop: 20,
     width: "95%",
+    height: "53%",
   },
   cardJudul: {
     marginHorizontal: 40,

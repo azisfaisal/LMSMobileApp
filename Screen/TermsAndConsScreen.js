@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Dimensions,
   StyleSheet,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -13,6 +14,13 @@ import { COLORS, PDF } from "../Config";
 
 export const TermsAndConsScreen = () => {
   const navigation = useNavigation();
+  function showToast() {
+    ToastAndroid.show("Gunakan dua jari untuk zoom", ToastAndroid.SHORT);
+  }
+
+  useEffect(() => {
+    showToast();
+  }, []);
   return (
     <View>
       <View style={styles.container}>
@@ -27,32 +35,54 @@ export const TermsAndConsScreen = () => {
           }}
         />
       </View>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("Pertanyaan");
+      <View
+        style={{
+          position: "absolute",
+          flexDirection: "row",
+          bottom: 0,
+          gap: 10,
+          left: 0,
+          backgroundColor: "rgba(249, 249, 249, 0.80)",
+          width: "100%",
+          paddingLeft: "10%",
+          paddingBottom: "3%",
         }}
-        style={styles.buttonStyle}
       >
-        <Text style={styles.textButton}>Selanjutnya</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+          style={styles.buttonStyle}
+        >
+          <Text style={styles.textButton}>Kembali</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Pertanyaan");
+          }}
+          style={styles.buttonStyle}
+        >
+          <Text style={styles.textButton}>Selanjutnya</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: "83%",
+    height: "100%",
   },
   buttonStyle: {
     borderRadius: 8,
-    padding: 10,
+    padding: 5,
     marginVertical: 10,
     backgroundColor: COLORS.secondary,
     alignItems: "center",
-    marginHorizontal: 20,
-    width: 150,
+    width: 90,
   },
   textButton: {
     color: "white",
+    fontSize: 12,
   },
 });

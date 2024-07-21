@@ -144,7 +144,7 @@ export const SilabusListScreen = () => {
         ListEmptyComponent={() => <ListEmpty />}
         // columnWrapperStyle={{ justifyContent: "space-evenly" }}
         // numColumns={2}
-        style={{ marginTop: 20, marginHorizontal: 20 }}
+        style={{ marginTop: 20, marginHorizontal: 20, height: "50%" }}
         keyExtractor={(item) => item.id}
       />
     </View>

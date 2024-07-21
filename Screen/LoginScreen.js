@@ -7,28 +7,37 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { COLORS } from "../Config";
+import { Loading } from "../Components/Loading";
 
 const LoginScreen = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
   const handleLogin = async () => {
     const storedUsername = await AsyncStorage.getItem("username");
     const storedPassword = await AsyncStorage.getItem("password");
     if (storedUsername === username && storedPassword === password) {
-      navigation.navigate("Subject");
+      // await AsyncStorage.setItem("loading", "loading");
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        navigation.navigate("Subject");
+      }, 2000);
     } else {
       alert("Username atau Password Salah");
     }
   };
 
   return (
-    <View>
+    <ScrollView>
+      {loading ? <Loading /> : null}
       <View style={styles.container}>
         <View>
           <Image source={require("../assets/logo.png")} style={styles.image} />
@@ -67,23 +76,23 @@ const LoginScreen = () => {
                   navigation.navigate("SignUp");
                 }}
               >
-                <Text style={styles.textSignUp}>Lupa NISN</Text>
+                <Text style={styles.textSignUp}>Sign Up</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   image: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
   },
   titleText: {
-    fontSize: 25,
+    fontSize: 20,
     maxWidth: "83%",
     fontWeight: "bold",
     color: COLORS.secondary,
@@ -95,6 +104,7 @@ const styles = StyleSheet.create({
     marginHorizontal: "5%",
     alignItems: "center",
     width: "57%",
+    marginVertical: 10,
   },
   textInputstyle: {
     borderWidth: 1,

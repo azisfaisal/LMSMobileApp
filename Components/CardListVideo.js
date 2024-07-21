@@ -20,7 +20,7 @@ export const CardListVideo = ({ item, index }) => {
       }}
     >
       <View style={styles.cardIcon}>
-        <Octicons name="video" size={50} color="white" />
+        <Octicons name="video" size={40} color="white" />
       </View>
       <View style={{}}>
         <View style={styles.cardJudul}>
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.secondary,
     padding: 10,
     marginTop: 20,
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 8,

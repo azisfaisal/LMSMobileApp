@@ -13,6 +13,7 @@ import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { CardPdfDocument } from "../Components/CardPdfDocument";
 import AsyncStorage from "@react-native-community/async-storage";
 import { PDF } from "../Config";
+import { BottomTabs, BottomTabsRpp } from "../App";
 
 // const numColumns = 3;
 export const RppListScreen = () => {
@@ -146,7 +147,7 @@ export const RppListScreen = () => {
           />
         )}
         ListEmptyComponent={() => <ListEmpty />}
-        style={{ marginTop: 20, marginHorizontal: 20, height: "80%" }}
+        style={{ marginTop: 20, marginHorizontal: 20, height: "50%" }}
         keyExtractor={(item) => item.id.toString()}
       />
     </View>

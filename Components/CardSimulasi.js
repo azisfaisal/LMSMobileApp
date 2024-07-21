@@ -11,7 +11,12 @@ export const CardSimulasi = ({ item }) => {
       <TouchableOpacity
         style={styles.cardList}
         onPress={() => {
-          navigation.navigate("ListVideo", item);
+          // navigation.navigate("ListVideo");
+          if (item.judul === "Proyeksi Orthogonal Amerika") {
+            navigation.navigate("ListVideo");
+          } else {
+            navigation.navigate("ListVideoEropa");
+          }
         }}
       >
         <View style={styles.cardFile}>

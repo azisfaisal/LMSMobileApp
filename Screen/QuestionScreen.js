@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import React, { useEffect, useState } from "react";
-import { Alert, Text, View } from "react-native";
+import { Alert, Button, Text, View } from "react-native";
 import { CardQuestion } from "../Components/CardQuestion";
 import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
@@ -15,25 +15,8 @@ export const QuestionScreen = () => {
   const [index, setIndex] = useState(0);
   const [isSimulationComplete, setIsSimulationComplete] = useState(false);
   const [modalWarning, setModalWarning] = useState(false);
+  const [answerSelected, setAnswerSelected] = useState(false);
 
-  // const questionData = [
-  //   {
-  //     question: "Apa warna langit?",
-  //     answer: ["Merah", "Hijau", "Biru"],
-  //     correct: 2,
-  //   },
-  //   {
-  //     question: "Apa warna gunung?",
-  //     answer: ["Merah", "Hijau", "Biru"],
-  //     correct: 1,
-  //   },
-  //   {
-  //     question: "Apa warna daun?",
-  //     answer: ["Merah", "Hijau", "Biru"],
-  //     correct: 1,
-  //   },
-  //   // Add more questions here
-  // ];
   const dataSoal = {
     judulSoal: "Soal Latihan Gambar Teknik",
     questionData: [
@@ -296,7 +279,7 @@ export const QuestionScreen = () => {
 
       {
         question:
-          "21.Pandangan atas dari gambar 3D (Proyeksi Amerika) di bawah ini adalah...",
+          "Pandangan atas dari gambar 3D (Proyeksi Amerika) di bawah ini adalah...",
         image: require("../assets/images/20.png"),
         answer: [
           require("../assets/images/21a.png"),
@@ -1111,20 +1094,6 @@ export const QuestionScreen = () => {
 
   useEffect(() => {
     if (isSimulationComplete) {
-      // Alert.alert(
-      //   "Simulasi Selesai!",
-      //   `Anda telah berhasil menyelsaikan simulasi`,
-      //   [
-      //     {
-      //       text: "OK",
-      //       onPress: async () => {
-      //         await saveScore();
-      //         navigation.navigate("Hasil");
-      //       },
-      //     },
-      //   ],
-      //   { cancelable: false }
-      // );
       saveScore();
       setModalWarning(true);
     }
@@ -1162,19 +1131,42 @@ export const QuestionScreen = () => {
   };
 
   const handleJawabanPress = (indexSoal, item) => {
-    const question = shuffledQuestions[questionIndex];
     const isCorrect =
       shuffledQuestions[indexSoal].answer.indexOf(item) ===
       shuffledQuestions[indexSoal].correct;
+    console.log(isCorrect);
+    console.log(item), "index";
+    console.log(shuffledQuestions[indexSoal].answer.indexOf(item));
+    console.log(shuffledQuestions[indexSoal].correct);
 
     setScore((prevScore) => (isCorrect ? prevScore + 1 * 4 : prevScore));
 
+    // if (questionIndex < shuffledQuestions.length - 1) {
+    //   setQuestionIndex((prevIndex) => prevIndex + 1);
+    //   setIndex(index + 1);
+    // } else {
+    //   resultEvaluasi();
+    //   setIsSimulationComplete(true);
+    // }
+    setAnswerSelected(true);
+  };
+
+  const nextQuestion = () => {
     if (questionIndex < shuffledQuestions.length - 1) {
       setQuestionIndex((prevIndex) => prevIndex + 1);
       setIndex(index + 1);
+      setAnswerSelected(false);
     } else {
       resultEvaluasi();
       setIsSimulationComplete(true);
+    }
+  };
+
+  const prevQuestion = () => {
+    if (questionIndex > 0) {
+      setQuestionIndex((prevIndex) => prevIndex - 1);
+      setIndex(index - 1);
+      setAnswerSelected(false);
     }
   };
 
@@ -1186,13 +1178,19 @@ export const QuestionScreen = () => {
     <View>
       {shuffledQuestions.length > 0 &&
         questionIndex < shuffledQuestions.length && (
-          <CardQuestion
-            index={index}
-            question={shuffledQuestions[questionIndex].question}
-            image={shuffledQuestions[questionIndex].image}
-            answer={shuffledQuestions[questionIndex].answer}
-            onPress={handleJawabanPress}
-          />
+          <>
+            <CardQuestion
+              index={index}
+              question={shuffledQuestions[questionIndex].question}
+              image={shuffledQuestions[questionIndex].image}
+              answer={shuffledQuestions[questionIndex].answer}
+              onPress={handleJawabanPress}
+              answerSelected={answerSelected}
+              questionIndex={questionIndex}
+              prevQuestion={prevQuestion}
+              nextQuestion={nextQuestion}
+            />
+          </>
         )}
       <CardWarning
         contain={"Anda telah berhasil menyelsaikan Ujian Evaluasi?"}

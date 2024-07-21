@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Header } from "../Components/Header";
 import { COLORS } from "../Config";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
@@ -123,71 +129,77 @@ export const DetailHistoryScreen = ({ route }) => {
     setModalValidation(false);
   };
   return (
-    <View style={styles.container}>
-      <Header />
-      <View style={styles.cardDetail}>
-        <View style={styles.HeaderStyle}>
-          <Text style={styles.textHeader}>{item.selectedItem.title}</Text>
-          <TouchableOpacity
-            onPress={() => {
-              setModalValidation(true);
-              printToFile();
-            }}
-          >
-            <AntDesign name="download" size={24} color="white" />
-          </TouchableOpacity>
-        </View>
-        <View>
-          <View style={styles.cardLeft}>
-            <FontAwesome
-              name="user-circle-o"
-              size={100}
-              color={COLORS.secondary}
-            />
-            <View style={styles.wrapText}>
-              <View>
-                <Text style={styles.textName}>{username}</Text>
-                <Text style={styles.textNISN}>
-                  {NISN} | {grade}
-                </Text>
-                <View style={styles.line} />
-                <Text style={styles.textTime}>{item.selectedItem.time}</Text>
-              </View>
-              <View>
-                <View style={styles.wrapDescriptionText}>
-                  <Text style={styles.descriptionText}>Mata Pelajaran</Text>
-                  <Text style={{ color: COLORS.primary }}>:</Text>
-                  <Text style={styles.descriptionText}>Gambar Teknik</Text>
-                </View>
+    <ScrollView>
+      <View style={styles.container}>
+        <Header />
+        <View style={{ marginBottom: "20%", width: "75%" }}>
+          <View style={styles.cardDetail}>
+            <View style={styles.HeaderStyle}>
+              <Text style={styles.textHeader}>{item.selectedItem.title}</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalValidation(true);
+                  printToFile();
+                }}
+              >
+                <AntDesign name="download" size={24} color="white" />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <View style={styles.cardLeft}>
+                <FontAwesome
+                  name="user-circle-o"
+                  size={50}
+                  color={COLORS.secondary}
+                />
+                <View style={styles.wrapText}>
+                  <View>
+                    <Text style={styles.textName}>{username}</Text>
+                    <Text style={styles.textNISN}>
+                      {NISN} | {grade}
+                    </Text>
+                    <View style={styles.line} />
+                    <Text style={styles.textTime}>
+                      {item.selectedItem.time}
+                    </Text>
+                  </View>
+                  <View>
+                    <View style={styles.wrapDescriptionText}>
+                      <Text style={styles.descriptionText}>Mata Pelajaran</Text>
+                      <Text style={{ color: COLORS.primary }}>:</Text>
+                      <Text style={styles.descriptionText}>Gambar Teknik</Text>
+                    </View>
 
-                <View style={styles.wrapDescriptionText}>
-                  <Text style={styles.descriptionText}>Keterangan</Text>
-                  <Text style={{ color: COLORS.primary }}>:</Text>
-                  <Text style={styles.descriptionText}>
-                    {item.selectedItem.score > 70
-                      ? "Kompeten"
-                      : "Tidak Kompeten"}
-                  </Text>
-                </View>
+                    <View style={styles.wrapDescriptionText}>
+                      <Text style={styles.descriptionText}>Keterangan</Text>
+                      <Text style={{ color: COLORS.primary }}>:</Text>
+                      <Text style={styles.descriptionText}>
+                        {item.selectedItem.score > 70
+                          ? "Kompeten"
+                          : "Tidak Kompeten"}
+                      </Text>
+                    </View>
 
-                <View style={styles.wrapDescriptionText}>
-                  <Text style={styles.descriptionText}>Nilai</Text>
-                  <Text style={{ color: COLORS.primary }}>:</Text>
-                  <Text style={styles.scoreText}>
-                    {item.selectedItem.score}
-                  </Text>
+                    <View style={styles.wrapDescriptionText}>
+                      <Text style={styles.descriptionText}>Nilai</Text>
+                      <Text style={{ color: COLORS.primary }}>:</Text>
+                      <Text style={styles.scoreText}>
+                        {item.selectedItem.score}
+                      </Text>
+                    </View>
+                  </View>
                 </View>
               </View>
             </View>
           </View>
         </View>
+        <Validation
+          contain={"Data berhasil diunduh."}
+          modalValidation={modalValidation}
+          closeValidation={closeValidation}
+        />
       </View>
-      <Validation
-        contain={"Data berhasil diunduh."}
-        modalValidation={modalValidation}
-        closeValidation={closeValidation}
-      />
-    </View>
+    </ScrollView>
   );
 };
 
@@ -198,8 +210,6 @@ const styles = StyleSheet.create({
   },
   cardDetail: {
     backgroundColor: "white",
-    width: "75%",
-    height: "75%",
     marginTop: 15,
     elevation: 30,
   },

@@ -192,6 +192,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     elevation: 30,
     padding: 20,
+    marginBottom: "15%",
   },
   barStyle: {
     borderWidth: 2,

@@ -8,27 +8,34 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  Linking,
 } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { COLORS } from "../Config";
+import { Loading } from "../Components/Loading";
 
 const SignUpScreen = ({}) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [NISN, setNISN] = useState("");
   const [grade, setGrade] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
 
   const handleSignUp = async () => {
     // Validasi dan simpan data di sesion storage
-    if (username && password && NISN && grade) {
+    if (username && NISN && grade) {
       await AsyncStorage.setItem("username", username);
-      await AsyncStorage.setItem("password", password);
+      // await AsyncStorage.setItem("password", password);
       await AsyncStorage.setItem("NISN", NISN);
       await AsyncStorage.setItem("grade", grade);
-      navigation.navigate("Subject");
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        navigation.navigate("Subject");
+      }, 2000);
     } else {
       alert("Mohon Lengakapi Form");
     }
@@ -36,6 +43,7 @@ const SignUpScreen = ({}) => {
 
   return (
     <ScrollView>
+      {loading ? <Loading /> : null}
       <View style={styles.container}>
         <View>
           <Image source={require("../assets/logo.png")} style={styles.image} />
@@ -47,21 +55,13 @@ const SignUpScreen = ({}) => {
 
         <View style={styles.cardLogin}>
           <View style={styles.label}>
-            <Text style={styles.labelText}>Daftar</Text>
+            <Text style={styles.labelText}>Masuk</Text>
           </View>
-          <Text style={styles.subTitle}>Username</Text>
+          <Text style={styles.subTitle}>Nama Lengkap</Text>
           <TextInput
             placeholder="Masukan Username"
             value={username}
             onChangeText={(text) => setUsername(text)}
-            style={styles.textInputstyle}
-          />
-          <Text style={styles.subTitle}>Password</Text>
-          <TextInput
-            placeholder="Masukan Password"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            secureTextEntry
             style={styles.textInputstyle}
           />
           <Text style={styles.subTitle}>NISN</Text>
@@ -79,7 +79,21 @@ const SignUpScreen = ({}) => {
             style={styles.textInputstyle}
           />
           <TouchableOpacity style={styles.buttonStyle} onPress={handleSignUp}>
-            <Text style={styles.textButton}>Daftar</Text>
+            <Text style={styles.textButton}>Masuk</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginTop: 20,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onPress={() => {
+              Linking.openURL(
+                "https://nisn.data.kemdikbud.go.id/index.php/Cindex/formcaribynama"
+              );
+            }}
+          >
+            <Text style={{ color: COLORS.grey }}>Lupa NISN</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -89,11 +103,11 @@ const SignUpScreen = ({}) => {
 
 const styles = StyleSheet.create({
   image: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
   },
   titleText: {
-    fontSize: 25,
+    fontSize: 20,
     maxWidth: "83%",
     fontWeight: "bold",
     color: COLORS.secondary,
@@ -101,10 +115,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flexDirection: "row",
-    marginTop: 10,
+    marginVertical: 10,
     marginHorizontal: "5%",
     alignItems: "center",
-    width: "47%",
+    width: "45%",
     justifyContent: "space-between",
   },
   textInputstyle: {

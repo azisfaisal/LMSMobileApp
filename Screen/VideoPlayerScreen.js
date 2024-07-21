@@ -11,6 +11,7 @@ import { Header } from "../Components/Header";
 import { COLORS } from "../Config";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-community/async-storage";
+import { AntDesign } from "@expo/vector-icons";
 
 export const VideoPlayerScreen = ({ route }) => {
   const item = route.params;
@@ -279,15 +280,28 @@ export const VideoPlayerScreen = ({ route }) => {
     }
   };
 
+  const handlePrevVideo = () => {
+    if (item?.tipe === "amerika") {
+      setCurrentVideoIndex(
+        (prevIndex) => (prevIndex - 1) % videoListAmerika.length
+      );
+    } else {
+      setCurrentVideoIndex(
+        (prevIndex) => (prevIndex - 1) % videoListEropa.length
+      );
+    }
+  };
+
   return (
     <ScrollView>
       <View style={styles.container}>
         <Header />
         <View
           style={{
-            height: 200,
-            width: 800,
+            height: 250,
+            width: "80%",
             marginVertical: 10,
+            flexDirection: "row",
           }}
         >
           <Video
@@ -305,17 +319,27 @@ export const VideoPlayerScreen = ({ route }) => {
             vide
             isLooping
             onPlaybackStatusUpdate={handlePlaybackStatusUpdate}
+            shouldPlay
           />
-        </View>
-        <View style={styles.wrapButton}>
           <TouchableOpacity
-            style={styles.button}
             onPress={() => {
               navigation.goBack();
             }}
           >
-            <Text style={styles.textButton}>Keluar</Text>
+            <AntDesign name="closecircleo" size={24} color={COLORS.secondary} />
           </TouchableOpacity>
+        </View>
+        <View style={styles.wrapButton}>
+          {currentVideoIndex === 0 ? null : (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                handlePrevVideo();
+              }}
+            >
+              <Text style={styles.textButton}>Sebelumnya</Text>
+            </TouchableOpacity>
+          )}
           <TouchableOpacity
             style={styles.button}
             onPress={() => {

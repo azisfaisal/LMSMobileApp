@@ -180,42 +180,44 @@ export const ListHistoryScreen = () => {
   return (
     <View>
       <Header />
-      <FlatList
-        data={lastThree}
-        renderItem={({ item, index }) => (
-          <CardListHistory
-            item={item}
-            username={username}
-            NISN={NISN}
-            grade={grade}
-            onPress={() => {
-              navigation.navigate("DetailHistory", {
-                selectedItem: item,
-              });
-            }}
-            download={() => {
-              setModalValidation(true);
-              setDownload(item);
-            }}
-            deleteObject={() => {
-              handleDelete(index);
-            }}
-            setModalWarning={setModalWarning}
-            setHistory={setHistory}
-          />
-        )}
-        ListEmptyComponent={() => <ListEmpty />}
-        // columnWrapperStyle={{ justifyContent: "space-evenly" }}
-        // numColumns={2}
+      <View
         style={{
           marginTop: 20,
           marginHorizontal: 20,
           backgroundColor: COLORS.tertiary,
-          height: 250,
-          marginBottom: 60,
+          height: "56%",
         }}
-        keyExtractor={(item) => item.id}
-      />
+      >
+        <FlatList
+          data={lastThree}
+          renderItem={({ item, index }) => (
+            <CardListHistory
+              item={item}
+              username={username}
+              NISN={NISN}
+              grade={grade}
+              onPress={() => {
+                navigation.navigate("DetailHistory", {
+                  selectedItem: item,
+                });
+              }}
+              download={() => {
+                setModalValidation(true);
+                setDownload(item);
+              }}
+              deleteObject={() => {
+                handleDelete(index);
+              }}
+              setModalWarning={setModalWarning}
+              setHistory={setHistory}
+            />
+          )}
+          ListEmptyComponent={() => <ListEmpty />}
+          // columnWrapperStyle={{ justifyContent: "space-evenly" }}
+          // numColumns={2}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
       <Validation
         contain={
           history === true ? "Data berhasil dihapus." : "Data berhasil diunduh."

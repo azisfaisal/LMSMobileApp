@@ -1,9 +1,17 @@
 import React from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Header } from "../Components/Header";
 import ListEmpty from "../Components/ListEmpty";
 import { CardListVideo } from "../Components/CardListVideo";
 import { COLORS } from "../Config";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export const ListVideo = ({ route }) => {
   // const item = route.params;
@@ -131,14 +139,35 @@ export const ListVideo = ({ route }) => {
       },
     ],
   };
+
+  const navigation = useNavigation();
   return (
     <View style={{ justifyContent: "center", alignItems: "center" }}>
       <Header />
       <View style={styles.container}>
         <View style={styles.cardJudul}>
-          <Text style={styles.textJudul}>
-            Materi Simulasi Proyeksi Orthogonal Amerika
-          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Text style={styles.textJudul}>
+              Materi Simulasi Proyeksi Orthogonal Amerika
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Simulasi");
+              }}
+            >
+              <Ionicons
+                name="arrow-back-circle-outline"
+                size={30}
+                color={COLORS.secondary}
+              />
+            </TouchableOpacity>
+          </View>
           <View style={styles.line} />
         </View>
         <FlatList
@@ -150,9 +179,7 @@ export const ListVideo = ({ route }) => {
           scrollEnabled={true}
           // columnWrapperStyle={{ justifyContent: "space-evenly" }}
           numColumns={4}
-          style={{
-            height: 100,
-          }}
+          style={{}}
           keyExtractor={(item) => item.id}
         />
       </View>
@@ -166,6 +193,8 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: 20,
     width: "95%",
+    marginBottom: 50,
+    height: "53%",
   },
   cardJudul: {
     marginHorizontal: 40,

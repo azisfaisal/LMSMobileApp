@@ -3,12 +3,16 @@ import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "../Config";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Loading } from "../Components/Loading";
 
 export const MyTabs = () => {
   const [tabItemIndex, setTabItemIndex] = useState(1);
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+
   return (
     <>
+      {loading ? <Loading /> : null}
       <View
         style={{
           flexDirection: "row",
@@ -173,7 +177,7 @@ export const MyTabs = () => {
           key={3}
           onPress={() => {
             setTabItemIndex(3);
-            navigation.navigate("MainSimulatiom", { unread: false });
+            navigation.navigate("Simulasi", { unread: false });
             // props.navigation.navigate('Home', { unread: false })
           }}
         >
@@ -246,7 +250,11 @@ export const MyTabs = () => {
           key={4}
           onPress={() => {
             setTabItemIndex(4);
-            navigation.navigate("Tentang", { unread: false });
+            setLoading(true);
+            setTimeout(() => {
+              setLoading(false);
+              navigation.navigate("Tentang", { unread: false });
+            }, 2000);
             // props.navigation.navigate('Home', { unread: false })
           }}
         >
@@ -319,7 +327,11 @@ export const MyTabs = () => {
           key={5}
           onPress={() => {
             setTabItemIndex(5);
-            navigation.navigate("Deskripsi", { unread: false });
+            setLoading(true);
+            setTimeout(() => {
+              setLoading(false);
+              navigation.navigate("Deskripsi", { unread: false });
+            }, 2000);
             // props.navigation.navigate('Home', { unread: false })
           }}
         >

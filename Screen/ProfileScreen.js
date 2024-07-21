@@ -18,21 +18,46 @@ import { Feather, FontAwesome, AntDesign } from "@expo/vector-icons";
 import { BarChart } from "react-native-gifted-charts";
 import { Validation } from "../Components/Validation";
 import ProgressCircle from "react-native-progress-circle";
+import * as ImagePicker from "expo-image-picker";
 
 export const ProfileScreen = () => {
   const [username, setUsername] = useState("");
+  const [newUsername, setNewUsername] = useState("");
   const [password, setPassword] = useState("");
   const [NISN, setNISN] = useState("");
+  const [newNISN, setNewNISN] = useState("");
   const [grade, setGrade] = useState("");
+  const [newGrade, setnewGrade] = useState("");
   const [description, setDescripstion] = useState("");
+  const [NewDescription, setNewDescripstion] = useState("");
   const [percentRpp, setPercentRpp] = useState("0");
   const [percentSilabus, setPercentSilabus] = useState("0");
   const [percentModul, setPercentModul] = useState("0");
   const [percentEvaluasi, setPercentEvaluasi] = useState("0");
   const [percentSimulasi, setPercentSimulasi] = useState("0");
+  const [Avatar, setAvatar] = useState();
   const [dataHistory, setDataHistory] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalValidation, setModalValidation] = useState(false);
+  const [image, setImage] = useState(0);
+  const [refresh, setRefresh] = useState(false);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      await AsyncStorage.setItem("avatar", result.assets[0].uri.toString());
+      setImage(image + 1);
+    }
+  };
 
   useEffect(() => {
     // Ambil data dari sesion storage saat komponen dipasang
@@ -49,6 +74,7 @@ export const ProfileScreen = () => {
       const storedModul = await AsyncStorage.getItem("modul");
       const storedEvaluasi = await AsyncStorage.getItem("evaluasi");
       const storedSimulasi = await AsyncStorage.getItem("simulasi");
+      const storedAvatar = await AsyncStorage.getItem("avatar");
       setUsername(storedUsername);
       setPassword(storedPassword);
       setNISN(storedNISN);
@@ -61,10 +87,12 @@ export const ProfileScreen = () => {
       setPercentEvaluasi(JSON.parse(storedEvaluasi));
       setPercentSimulasi(JSON.parse(storedSimulasi));
       setDataHistory(resultObject);
+      setAvatar(storedAvatar);
+      setRefresh(false);
     };
 
     fetchData();
-  }, []);
+  }, [image, refresh]);
 
   const pickBar = () => {
     let data = [];
@@ -82,11 +110,31 @@ export const ProfileScreen = () => {
   const navigation = useNavigation();
   const handleSignUp = async () => {
     // Validasi dan simpan data di sesion storage
-    await AsyncStorage.setItem("username", username);
-    await AsyncStorage.setItem("password", password);
-    await AsyncStorage.setItem("NISN", NISN);
-    await AsyncStorage.setItem("grade", grade);
-    await AsyncStorage.setItem("description", description);
+    if (newUsername === "") {
+      await AsyncStorage.setItem("username", username);
+    } else {
+      await AsyncStorage.setItem("username", newUsername);
+    }
+
+    if (newNISN === "") {
+      await AsyncStorage.setItem("NISN", NISN);
+    } else {
+      await AsyncStorage.setItem("NISN", newNISN);
+    }
+
+    if (newGrade === "") {
+      await AsyncStorage.setItem("grade", grade);
+    } else {
+      await AsyncStorage.setItem("grade", newGrade);
+    }
+
+    if (NewDescription === "") {
+      await AsyncStorage.setItem("description", description);
+    } else {
+      await AsyncStorage.setItem("description", NewDescription);
+    }
+
+    setRefresh(true);
     // alert("Data Berhasil Di Ubah");
   };
 
@@ -101,6 +149,8 @@ export const ProfileScreen = () => {
     percentEvaluasi +
     percentSimulasi;
   const roundedPercent = Math.round((totalPercent / 500) * 100);
+
+  console.log(Avatar, "avatar");
 
   return (
     <ScrollView>
@@ -117,11 +167,24 @@ export const ProfileScreen = () => {
             <Text style={styles.profileText}>Profil</Text>
           </View>
           <View style={styles.wrapContainProfile}>
-            <FontAwesome
-              name="user-circle-o"
-              size={100}
-              color={COLORS.secondary}
-            />
+            {Avatar === null || Avatar === undefined ? (
+              <TouchableOpacity
+                onPress={() => {
+                  pickImage();
+                }}
+              >
+                <FontAwesome
+                  name="user-circle-o"
+                  size={100}
+                  color={COLORS.secondary}
+                />
+              </TouchableOpacity>
+            ) : (
+              <Image
+                source={{ uri: Avatar }}
+                style={{ width: 100, height: 100, borderRadius: 50 }}
+              />
+            )}
             <Text style={styles.textUser}>{username}</Text>
             <Text style={styles.textNISN}>
               {NISN} | {grade}
@@ -137,19 +200,27 @@ export const ProfileScreen = () => {
                 flexDirection: "row",
                 gap: 10,
                 marginVertical: 10,
+                alignItems: "center",
               }}
             >
               <ProgressCircle
                 percent={roundedPercent}
-                radius={50}
+                radius={30}
                 borderWidth={5}
                 color={COLORS.secondary}
                 shadowColor="#E7E7E7"
                 bgColor="#fff"
               >
-                <Text style={{ fontSize: 18 }}>{roundedPercent}%</Text>
+                <Text style={{ fontSize: 15 }}>{roundedPercent}%</Text>
               </ProgressCircle>
-              <Text style={[styles.titleBar, { marginTop: 20, width: 150 }]}>
+              <Text
+                style={{
+                  width: 100,
+                  fontSize: 12,
+                  fontWeight: "bold",
+                  color: COLORS.primary,
+                }}
+              >
                 Progres Penggunaan Aplikasi
               </Text>
             </View>
@@ -165,7 +236,7 @@ export const ProfileScreen = () => {
               <Text
                 style={{
                   color: COLORS.grey,
-                  fontSize: 18,
+                  fontSize: 12,
                 }}
               >
                 RPP
@@ -173,7 +244,7 @@ export const ProfileScreen = () => {
               <Text
                 style={{
                   color: COLORS.secondary,
-                  fontSize: 16,
+                  fontSize: 12,
                   fontWeight: "bold",
                 }}
               >
@@ -198,7 +269,7 @@ export const ProfileScreen = () => {
               <Text
                 style={{
                   color: COLORS.grey,
-                  fontSize: 18,
+                  fontSize: 12,
                 }}
               >
                 Silabus
@@ -206,7 +277,7 @@ export const ProfileScreen = () => {
               <Text
                 style={{
                   color: COLORS.secondary,
-                  fontSize: 16,
+                  fontSize: 12,
                   fontWeight: "bold",
                 }}
               >
@@ -231,7 +302,7 @@ export const ProfileScreen = () => {
               <Text
                 style={{
                   color: COLORS.grey,
-                  fontSize: 18,
+                  fontSize: 12,
                   width: 150,
                 }}
               >
@@ -240,7 +311,7 @@ export const ProfileScreen = () => {
               <Text
                 style={{
                   color: COLORS.secondary,
-                  fontSize: 16,
+                  fontSize: 12,
                   fontWeight: "bold",
                 }}
               >
@@ -265,7 +336,7 @@ export const ProfileScreen = () => {
               <Text
                 style={{
                   color: COLORS.grey,
-                  fontSize: 18,
+                  fontSize: 12,
                 }}
               >
                 Evaluasi
@@ -273,7 +344,7 @@ export const ProfileScreen = () => {
               <Text
                 style={{
                   color: COLORS.secondary,
-                  fontSize: 16,
+                  fontSize: 12,
                   fontWeight: "bold",
                 }}
               >
@@ -298,7 +369,7 @@ export const ProfileScreen = () => {
               <Text
                 style={{
                   color: COLORS.grey,
-                  fontSize: 18,
+                  fontSize: 12,
                 }}
               >
                 Simulasi
@@ -306,7 +377,7 @@ export const ProfileScreen = () => {
               <Text
                 style={{
                   color: COLORS.secondary,
-                  fontSize: 16,
+                  fontSize: 12,
                   fontWeight: "bold",
                 }}
               >
@@ -322,7 +393,6 @@ export const ProfileScreen = () => {
         </View>
 
         <View style={styles.coloumStyle}>
-          <View style={styles.containerTitleBarStyle}></View>
           <View style={styles.barStyle}>
             <Text style={styles.titleBar}>
               Statistik Riwayat Ujian Evaluasi
@@ -333,11 +403,11 @@ export const ProfileScreen = () => {
             </View>
             <BarChart
               barWidth={70}
-              height={350}
+              height={197}
               noOfSections={5}
               barBorderRadius={4}
               frontColor="lightgray"
-              data={pickBar()}
+              data={dataHistory === null ? [] : pickBar()}
               yAxisThickness={1}
               xAxisThickness={0}
               width={100}
@@ -361,13 +431,17 @@ export const ProfileScreen = () => {
             styles.backdrop,
           ]}
         />
-        <View>
+        <ScrollView>
           <View style={styles.modalView}>
             <View style={styles.HeaderStyle}>
               <Text style={styles.textHeader}>Perbaharui Profile</Text>
               <TouchableOpacity
                 onPress={() => {
                   setModalVisible(!modalVisible);
+                  setNewUsername("");
+                  setNewNISN("");
+                  setnewGrade("");
+                  setNewDescripstion("");
                 }}
               >
                 <AntDesign name="closecircleo" size={24} color="white" />
@@ -377,23 +451,23 @@ export const ProfileScreen = () => {
               <View>
                 <Text style={styles.subTitle}>Username</Text>
                 <TextInput
-                  placeholder="Masukan Username"
-                  value={username}
-                  onChangeText={(text) => setUsername(text)}
+                  placeholder={username}
+                  value={newUsername}
+                  onChangeText={(text) => setNewUsername(text)}
                   style={styles.textInputstyle}
                 />
                 <Text style={styles.subTitle}>NISN</Text>
                 <TextInput
-                  placeholder="Masukan NISN"
-                  value={NISN}
-                  onChangeText={(text) => setNISN(text)}
+                  placeholder={NISN}
+                  value={newNISN}
+                  onChangeText={(text) => setNewNISN(text)}
                   style={styles.textInputstyle}
                 />
                 <Text style={styles.subTitle}>Kelas</Text>
                 <TextInput
-                  placeholder="Masukan Kelas"
-                  value={grade}
-                  onChangeText={(text) => setGrade(text)}
+                  placeholder={grade}
+                  value={newGrade}
+                  onChangeText={(text) => setnewGrade(text)}
                   style={styles.textInputstyle}
                 />
               </View>
@@ -410,9 +484,9 @@ export const ProfileScreen = () => {
                   editable
                   multiline
                   numberOfLines={4}
-                  value={description}
-                  placeholder="Deskripsi diri"
-                  onChangeText={(text) => setDescripstion(text)}
+                  value={NewDescription}
+                  placeholder={description}
+                  onChangeText={(text) => setNewDescripstion(text)}
                   style={{ padding: 10 }}
                 />
               </View>
@@ -428,7 +502,7 @@ export const ProfileScreen = () => {
               <Text style={styles.textButton}>Ubah Data</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </ScrollView>
       </Modal>
 
       <Validation
@@ -453,7 +527,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 20,
     backgroundColor: "white",
-    marginBottom: 40,
+    marginBottom: "20%",
     borderRadius: 15,
     marginHorizontal: 8,
     gap: 5,
@@ -461,7 +535,7 @@ const styles = StyleSheet.create({
   textInputstyle: {
     borderWidth: 2,
     borderRadius: 8,
-    width: 300,
+    width: 200,
     padding: 5,
     marginTop: 10,
     borderColor: COLORS.secondary,
@@ -489,10 +563,11 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
   },
   descriptionStyle: {
-    width: "30%",
+    width: "35%",
   },
   coloumStyle: {
     marginRight: 40,
+    marginTop: "10%",
   },
   cardEdit: {
     width: 40,
@@ -504,7 +579,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   profileText: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: "bold",
     color: COLORS.primary,
   },
@@ -513,11 +588,13 @@ const styles = StyleSheet.create({
     gap: 10,
     marginVertical: 20,
     marginLeft: 20,
+    alignItems: "center",
   },
   textUser: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: "bold",
     color: COLORS.primary,
+    marginTop: 10,
   },
   textNISN: {
     fontSize: 15,
@@ -531,7 +608,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 15,
     borderColor: "#E7E7E7",
-    marginTop: "25%",
   },
   cardNilaiEvaluasi: {
     width: 20,
@@ -549,12 +625,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 20,
     marginHorizontal: 10,
-  },
-  titleBar: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: COLORS.primary,
-    marginTop: 80,
   },
   containerTitleBarStyle: {
     marginBottom: 10,
@@ -610,7 +680,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   ProgressStyle: {
-    width: 250,
+    width: "30%",
     borderWidth: 1,
     padding: 10,
     borderRadius: 15,
@@ -619,7 +689,7 @@ const styles = StyleSheet.create({
     marginTop: "10%",
   },
   titleBar: {
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: "bold",
     color: COLORS.primary,
   },
@@ -630,15 +700,15 @@ const styles = StyleSheet.create({
   },
   circleProgress: {
     backgroundColor: COLORS.secondary,
-    width: 60,
-    height: 60,
+    width: 35,
+    height: 35,
     borderRadius: 30,
     padding: 10,
     alignItems: "center",
     justifyContent: "center",
   },
   imageSmall: {
-    width: 30,
-    height: 30,
+    width: 20,
+    height: 20,
   },
 });

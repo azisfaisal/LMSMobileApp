@@ -43,6 +43,8 @@ export const CardWarning = ({
     // Validasi dan simpan data di sesion storage
     await AsyncStorage.setItem("evaluasi", "100");
   };
+
+  console.log(save, "1"), console.log(history, "2");
   return (
     <Modal
       animationType="slide"
@@ -100,6 +102,7 @@ export const CardWarning = ({
                   onPress={() => {
                     if (save) {
                       setSave(false);
+                      navigation.navigate("Evaluasi");
                     } else if (setHistory) {
                       setHistory(false);
                     }
