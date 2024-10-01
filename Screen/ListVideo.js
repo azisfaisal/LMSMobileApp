@@ -145,31 +145,6 @@ export const ListVideo = ({ route }) => {
     <View style={{ justifyContent: "center", alignItems: "center" }}>
       <Header />
       <View style={styles.container}>
-        <View style={styles.cardJudul}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text style={styles.textJudul}>
-              Materi Simulasi Proyeksi Orthogonal Amerika
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Simulasi");
-              }}
-            >
-              <Ionicons
-                name="arrow-back-circle-outline"
-                size={30}
-                color={COLORS.secondary}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.line} />
-        </View>
         <FlatList
           data={item.materi}
           renderItem={({ item, index }) => (
@@ -177,6 +152,33 @@ export const ListVideo = ({ route }) => {
           )}
           ListEmptyComponent={() => <ListEmpty />}
           scrollEnabled={true}
+          ListHeaderComponent={() => (
+            <View style={styles.cardJudul}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={styles.textJudul}>
+                  Materi Simulasi Proyeksi Orthogonal Amerika
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("Simulasi");
+                  }}
+                >
+                  <Ionicons
+                    name="arrow-back-circle-outline"
+                    size={30}
+                    color={COLORS.secondary}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.line} />
+            </View>
+          )}
           // columnWrapperStyle={{ justifyContent: "space-evenly" }}
           numColumns={4}
           style={{}}
