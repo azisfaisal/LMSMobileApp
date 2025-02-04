@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "LMSMobileApp",
+    "name": "Aplikasi Multimedia Animasi Gambar Teknik",
     "slug": "LMSMobileApp",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "landscape",
     "icon": "./assets/LogoLMS.png",
     "plugins": [
@@ -55,6 +55,7 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 4,
       "adaptiveIcon": {
         "foregroundImage": "./assets/LogoLMS.png",
         "backgroundColor": "#ffffff"
@@ -65,7 +66,7 @@
         "android.permission.DOWNLOAD_WITHOUT_NOTIFICATION",
         "android.permission.ACCESS_NETWORK_STATE"
       ],
-      "package": "com.azissfm.LMSMobileApp"
+      "package": "com.AppsGambarTeknik"
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -43,6 +43,18 @@ export const AboutScreen = () => {
             console.log(error);
           }}
         />
+        <View style={{ marginHorizontal: 20, marginTop: 10 }}>
+          <Text style={{ fontSize: 8, color: "grey" }}>
+            Disclaimer Aset Media Semua gambar, video, dan aset desain lain yang
+            digunakan dalam aplikasi ini adalah karya original dari tim desain
+            kami. Hak cipta untuk semua aset tersebut sepenuhnya dimiliki oleh
+            Ganeshlabs. Aset-aset ini tidak dapat didistribusikan, dimodifikasi,
+            atau digunakan di luar aplikasi ini tanpa izin tertulis dari pemilik
+            hak cipta. Asset digunakan sebagai kepentingan edukasi dan
+            pembelajaran. Tidak diperjual belikan atau kepentingan komersial
+            lainnya.
+          </Text>
+        </View>
       </View>
     </View>
   );
